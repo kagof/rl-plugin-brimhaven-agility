@@ -68,6 +68,10 @@ public final class BrimhavenAgilityArenaNeighbourDigest
 					 BufferedReader br = new BufferedReader(isr))
 				{
 					br.lines().forEach(line -> {
+						if (line.startsWith("#"))
+						{
+							return;
+						}
 						int srcx = Integer.parseInt(line.substring(0, 1));
 						int srcy = Integer.parseInt(line.substring(1, 2));
 						char obs = line.charAt(2);

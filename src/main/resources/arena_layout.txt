@@ -1,3 +1,10 @@
+# Describes the layout of the Brimhaven Agility arena. Each line is 5 chars, in the format:
+# 1. source x coordinate
+# 2. source y coordinate
+# 3. obstacle short code
+# 4. destination x coordinate
+# 5. destination y coordinate
+# Note that this is done in a double-entry manner, so eg both 00l10 and 10l00 will be present.
 00l10
 00i01
 01i00

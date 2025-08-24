@@ -15,7 +15,8 @@ import net.runelite.api.coords.WorldPoint;
 
 /**
  * Uses the A* path finding algorithm to find the shortest (weighted) path from the player's current location, to the
- * target dispenser.
+ * target dispenser. Adapted from <a href="https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode">Wikipedia's
+ * pseudocode</a> implementation.
  */
 public final class BrimhavenAgilityPathFinder
 {
