@@ -20,6 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class BrimhavenAgilityArenaNeighbourDigest
 {
+
+	private static final String COMMENT_CHAR = "#";
+
 	private BrimhavenAgilityArenaNeighbourDigest()
 	{
 	}
@@ -67,19 +70,27 @@ public final class BrimhavenAgilityArenaNeighbourDigest
 				try (InputStreamReader isr = new InputStreamReader(is);
 					 BufferedReader br = new BufferedReader(isr))
 				{
-					br.lines().forEach(line -> {
-						if (line.startsWith("#"))
+					br.lines().forEach(l -> {
+						try
 						{
-							return;
+							String line = l.split(COMMENT_CHAR, 2)[0].trim();
+							if (line.isBlank())
+							{
+								return;
+							}
+							int srcx = Integer.parseInt(line.substring(0, 1));
+							int srcy = Integer.parseInt(line.substring(1, 2));
+							char obs = line.charAt(2);
+							int dstx = Integer.parseInt(line.substring(3, 4));
+							int dsty = Integer.parseInt(line.substring(4, 5));
+							neighbours.merge(BrimhavenAgilityArenaLocation.of(srcx, srcy),
+								List.of(BrimhavenAgilityArenaNeighbour.of(dstx, dsty, BrimhavenAgilityArenaObstacle.from(obs))),
+								(l1, l2) -> Stream.concat(l1.stream(), l2.stream()).collect(Collectors.toUnmodifiableList()));
 						}
-						int srcx = Integer.parseInt(line.substring(0, 1));
-						int srcy = Integer.parseInt(line.substring(1, 2));
-						char obs = line.charAt(2);
-						int dstx = Integer.parseInt(line.substring(3, 4));
-						int dsty = Integer.parseInt(line.substring(4, 5));
-						neighbours.merge(BrimhavenAgilityArenaLocation.of(srcx, srcy),
-							List.of(BrimhavenAgilityArenaNeighbour.of(dstx, dsty, BrimhavenAgilityArenaObstacle.from(obs))),
-							(l1, l2) -> Stream.concat(l1.stream(), l2.stream()).collect(Collectors.toUnmodifiableList()));
+						catch (Exception e)
+						{
+							log.error("exception when handling line {}", l, e);
+						}
 					});
 					loaded = true;
 				}
@@ -89,5 +100,11 @@ public final class BrimhavenAgilityArenaNeighbourDigest
 		{
 			log.error("failed to load Brimhaven agility arena layout file", e);
 		}
+	}
+
+	public synchronized static void unload()
+	{
+		neighbours.clear();
+		loaded = false;
 	}
 }

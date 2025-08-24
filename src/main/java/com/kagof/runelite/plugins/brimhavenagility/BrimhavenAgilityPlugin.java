@@ -61,6 +61,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 	protected void shutDown() throws Exception
 	{
 		overlayManager.remove(overlay);
+		BrimhavenAgilityArenaNeighbourDigest.unload();
 		agilityLevel = 0;
 		currentPath = null;
 		ticketAvailable = true;
@@ -84,7 +85,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 	private boolean recomputePathIfNeeded()
 	{
 		boolean changed = false;
-		if (isInAgilityArena() && ticketAvailable && config.drawPath())
+		if (isInAgilityArena() && ticketAvailable)
 		{
 			WorldPoint ticketPosition = client.getHintArrowPoint();
 			WorldPoint playerLocation = client.getLocalPlayer().getWorldLocation();

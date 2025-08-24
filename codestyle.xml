@@ -22,6 +22,11 @@
 	<XML>
 		<option name="XML_LEGACY_SETTINGS_IMPORTED" value="true"/>
 	</XML>
+	<codeStyleSettings language="Groovy">
+		<option name="RIGHT_MARGIN" value="120"/>
+		<option name="WRAP_LONG_LINES" value="true"/>
+		<option name="WRAP_ON_TYPING" value="1"/>
+	</codeStyleSettings>
 	<codeStyleSettings language="JAVA">
 		<option name="BRACE_STYLE" value="2"/>
 		<option name="CLASS_BRACE_STYLE" value="2"/>

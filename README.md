@@ -11,10 +11,19 @@ dispenser, taking into account your character's agility level. The path is found
 
 ## Configuration
 
-Weightings are configurable so if the user wants to avoid a specific obstacle, they can do so by giving it a very high
-weighting.
+If the player wishes to avoid a particular obstacle, they can do so using configuration. This may be useful to, for
+example, avoid the darts obstacle which lowers your agility level by 2 when failed.
 
 ![](images/config.png)
+
+## Possible future features
+
+These are potential ideas for future expansions of this plugin.
+
+* removing the hint arrow once the ticket has been claimed
+* highlighting the correct plank to use on the 3 plank obstacle
+* an overlay when outside the arena displaying whether the player can enter (taking into account the teleport time-out
+  and whether the player has paid or not)
 
 ## Acknowledgements
 
@@ -24,4 +33,7 @@ weighting.
   the [Quest Helper](https://github.com/Zoinkwiz/quest-helper) plugin.
 * A* pathfinding code was based
   on [Wikipedia's pseudocode](https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode) implementation
-* Jagex, for creating & maintaining Old School Runescape
+* Information on the Brimhaven Agility Arena was taken from
+  the [OSRS Wiki](https://oldschool.runescape.wiki/w/Brimhaven_Agility_Arena), in particular the layout, level
+  requirements, and time to complete each obstacle
+* Jagex, and especially the OSRS team, for creating & maintaining Old School Runescape

@@ -26,7 +26,7 @@ public class BrimhavenAgilityOverlay extends Overlay
 	@Override
 	public Dimension render(final Graphics2D graphics2D)
 	{
-		if (!plugin.isInAgilityArena() || !plugin.isTicketAvailable() || !config.drawPath())
+		if (!plugin.isInAgilityArena() || !plugin.isTicketAvailable())
 		{
 			return null;
 		}

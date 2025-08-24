@@ -1,8 +1,6 @@
 package com.kagof.runelite.plugins.brimhavenagility.model;
 
-import com.kagof.runelite.plugins.brimhavenagility.BrimhavenAgilityArenaNeighbourDigest;
 import com.kagof.runelite.plugins.brimhavenagility.BrimhavenAgilityPlugin;
-import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
 import net.runelite.api.coords.WorldPoint;
@@ -25,11 +23,6 @@ public class BrimhavenAgilityArenaLocation
 	int x;
 	int y;
 
-	public List<BrimhavenAgilityArenaNeighbour> getNeighbours()
-	{
-		return BrimhavenAgilityArenaNeighbourDigest.getNeighbours(this);
-	}
-
 	/**
 	 * @return the WorldPoint of the center of the platform.
 	 */
@@ -51,9 +44,17 @@ public class BrimhavenAgilityArenaLocation
 		{
 			return null;
 		}
-		return new BrimhavenAgilityArenaLocation(
-			(worldPoint.getRegionX() + PLATFORM_CENTER_OFFSET - PLATFORM_START_X) / PLATFORM_WIDTH,
-			(worldPoint.getRegionY() + PLATFORM_CENTER_OFFSET - PLATFORM_START_Y) / PLATFORM_HEIGHT);
+
+		// adding the offset changes the origin from the center of the platform to the sw corner.
+		// dividing by width/height rounds down to choose the correct platform.
+		int x = (worldPoint.getRegionX() + PLATFORM_CENTER_OFFSET - PLATFORM_START_X) / PLATFORM_WIDTH;
+		int y = (worldPoint.getRegionY() + PLATFORM_CENTER_OFFSET - PLATFORM_START_Y) / PLATFORM_HEIGHT;
+
+		if (x < 0 || y < 0 || x > 4 || y > 4)
+		{
+			return null; // not on a platform
+		}
+		return new BrimhavenAgilityArenaLocation(x, y);
 	}
 
 	public static BrimhavenAgilityArenaLocation of(int x, int y)

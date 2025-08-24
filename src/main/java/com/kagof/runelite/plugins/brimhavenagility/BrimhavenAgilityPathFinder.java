@@ -20,6 +20,12 @@ import net.runelite.api.coords.WorldPoint;
  */
 public final class BrimhavenAgilityPathFinder
 {
+	// not MAX_INT to avoid overflows
+	public static final int NEVER_USE_WEIGHT = 999999;
+
+	// lower than the NEVER_USER_WEIGHT so a valid path can still be found if too many obstacles are avoided
+	public static final int AVOID_WEIGHT = 999;
+
 	private BrimhavenAgilityPathFinder()
 	{
 	}
@@ -79,9 +85,14 @@ public final class BrimhavenAgilityPathFinder
 	{
 		if (neighbour.getObstacle().getMinLevel() > agilityLevel)
 		{
-			return 999999;
+			return NEVER_USE_WEIGHT;
 		}
-		return neighbour.getObstacle().getWeightFunction().apply(config);
+		if (neighbour.getObstacle().getAvoidFunction().apply(config))
+		{
+			return AVOID_WEIGHT;
+		}
+
+		return neighbour.getObstacle().getWeight();
 	}
 
 	private static BrimhavenAgilityArenaPath reconstructPath(final Map<BrimhavenAgilityArenaLocation, BrimhavenAgilityArenaLocation> cameFrom, final BrimhavenAgilityArenaLocation end)

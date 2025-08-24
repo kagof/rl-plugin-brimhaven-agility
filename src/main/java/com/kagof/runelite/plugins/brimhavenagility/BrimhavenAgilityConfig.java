@@ -6,20 +6,20 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.ConfigSection;
-import net.runelite.client.config.Range;
 
 @ConfigGroup("brimhavenagility")
 public interface BrimhavenAgilityConfig extends Config
 {
 
-	@ConfigItem(keyName = "drawpath",
-		name = "Draw path",
-		description = "Whether or not to draw the shortest path to the currently active dispenser",
-		position = 0)
-	default boolean drawPath()
-	{
-		return true;
-	}
+	// this config option is not useful at this time since this is the only feature of the plugin currently.
+	//	@ConfigItem(keyName = "drawpath",
+	//		name = "Draw path",
+	//		description = "Whether or not to draw the shortest path to the currently active dispenser",
+	//		position = 0)
+	//	default boolean drawPath()
+	//	{
+	//		return true;
+	//	}
 
 	@Alpha
 	@ConfigItem(keyName = "pathcolour",
@@ -32,150 +32,134 @@ public interface BrimhavenAgilityConfig extends Config
 	}
 
 	@ConfigSection(
-		name = "Path Weights",
-		description = "Configuration for the weights of obstacles in the Brimhaven Agility Arena",
+		name = "Obstacles to avoid",
+		description = "Configuration of obstacles to avoid when computing the path to the active dispenser",
 		position = 2)
-	String pathWeights = "pathweights";
+	String obstaclesAvoid = "obstaclesavoid";
 
-	// the default weights are taken from the number of ticks each obstacle takes according to the wiki
-
-	@ConfigItem(keyName = "bladeweight",
-		name = "Blade weight",
-		description = "Weighting of the blade obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int bladeWeight()
+	@ConfigItem(keyName = "bladeavoid",
+		name = "Avoid Blade",
+		description = "If checked, the recommended path will not contain the blade obstacle",
+		section = obstaclesAvoid)
+	default boolean bladeAvoid()
 	{
-		return 5; // 4 to 6 ticks, so averaging it as 5
+		return false;
 	}
 
-	@ConfigItem(keyName = "ropeswingweight",
-		name = "Rope swing weight",
-		description = "Weighting of the rope swing obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int ropeSwingWeight()
+	@ConfigItem(keyName = "ropeswingavoid",
+		name = "Avoid Rope swing",
+		description = "If checked, the recommended path will not contain the rope swing obstacle",
+		section = obstaclesAvoid)
+	default boolean ropeSwingAvoid()
 	{
-		return 4;
+		return false;
 	}
 
-	@ConfigItem(keyName = "lowwallweight",
-		name = "Low wall weight",
-		description = "Weighting of the low wall obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int lowWallWeight()
+	@ConfigItem(keyName = "lowwallavoid",
+		name = "Avoid Low wall",
+		description = "If checked, the recommended path will not contain the low wall obstacle",
+		section = obstaclesAvoid)
+	default boolean lowWallAvoid()
 	{
-		return 5;
+		return false;
 	}
 
-	@ConfigItem(keyName = "plankweight",
-		name = "Plank weight",
-		description = "Weighting of the plank obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int plankWeight()
+	@ConfigItem(keyName = "plankavoid",
+		name = "Avoid Plank",
+		description = "If checked, the recommended path will not contain the plank obstacle",
+		section = obstaclesAvoid)
+	default boolean plankAvoid()
 	{
-		return 9;
+		return false;
 	}
 
-	@ConfigItem(keyName = "balancingropeweight",
-		name = "Balancing rope weight",
-		description = "Weighting of the balancing rope obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int balancingRopeWeight()
+	@ConfigItem(keyName = "balancingropeavoid",
+		name = "Avoid Balancing rope",
+		description = "If checked, the recommended path will not contain the balancing rope obstacle",
+		section = obstaclesAvoid)
+	default boolean balancingRopeAvoid()
 	{
-		return 9;
+		return false;
 	}
 
-	@ConfigItem(keyName = "logbalanceweight",
-		name = "Log balance weight",
-		description = "Weighting of the log balance obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int logBalanceWeight()
+	@ConfigItem(keyName = "logbalanceavoid",
+		name = "Avoid Log balance",
+		description = "If checked, the recommended path will not contain the log balance obstacle",
+		section = obstaclesAvoid)
+	default boolean logBalanceAvoid()
 	{
-		return 9;
+		return false;
 	}
 
-	@ConfigItem(keyName = "balancingledgeweight",
-		name = "Balancing ledge weight",
-		description = "Weighting of the balancing ledge obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int balancingLedgeWeight()
+	@ConfigItem(keyName = "balancingledgeavoid",
+		name = "Avoid Balancing ledge",
+		description = "If checked, the recommended path will not contain the balancing ledge obstacle",
+		section = obstaclesAvoid)
+	default boolean balancingLedgeAvoid()
 	{
-		return 9;
+		return false;
 	}
 
-	@ConfigItem(keyName = "monkeybarsweight",
-		name = "Monkey bars weight",
-		description = "Weighting of the monkey bars obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int monkeyBarsWeight()
+	@ConfigItem(keyName = "monkeybarsavoid",
+		name = "Avoid Monkey bars",
+		description = "If checked, the recommended path will not contain the monkey bars obstacle",
+		section = obstaclesAvoid)
+	default boolean monkeyBarsAvoid()
 	{
-		return 13;
+		return false;
 	}
 
-	@ConfigItem(keyName = "pillarweight",
-		name = "Pillar weight",
-		description = "Weighting of the pillar obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int pillarWeight()
+	@ConfigItem(keyName = "pillaravoid",
+		name = "Avoid Pillar",
+		description = "If checked, the recommended path will not contain the pillar obstacle",
+		section = obstaclesAvoid)
+	default boolean pillarAvoid()
 	{
-		return 9;
+		return false;
 	}
 
-	@ConfigItem(keyName = "pressurepadweight",
-		name = "Pressure pad weight",
-		description = "Weighting of the pressure pad obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int pressurePadWeight()
+	@ConfigItem(keyName = "pressurepadavoid",
+		name = "Avoid Pressure pad",
+		description = "If checked, the recommended path will not contain the pressure pad obstacle",
+		section = obstaclesAvoid)
+	default boolean pressurePadAvoid()
 	{
-		return 4;
+		return false;
 	}
 
-	@ConfigItem(keyName = "floorspikesweight",
-		name = "Floor spikes weight",
-		description = "Weighting of the floor spikes obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int floorSpikesWeight()
+	@ConfigItem(keyName = "floorspikesavoid",
+		name = "Avoid Floor spikes",
+		description = "If checked, the recommended path will not contain the floor spikes obstacle",
+		section = obstaclesAvoid)
+	default boolean floorSpikesAvoid()
 	{
-		return 4;
+		return false;
 	}
 
-	@ConfigItem(keyName = "handholdsweight",
-		name = "Hand holds weight",
-		description = "Weighting of the hand holds obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int handHoldsWeight()
+	@ConfigItem(keyName = "handholdsavoid",
+		name = "Avoid Hand holds",
+		description = "If checked, the recommended path will not contain the hand holds obstacle",
+		section = obstaclesAvoid)
+	default boolean handHoldsAvoid()
 	{
-		return 10;
+		return false;
 	}
 
-	@ConfigItem(keyName = "spinningbladesweight",
-		name = "Spinning blades weight",
-		description = "Weighting of the spinning blades obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int spinningBladesWeight()
+	@ConfigItem(keyName = "spinningbladesavoid",
+		name = "Avoid Spinning blades",
+		description = "If checked, the recommended path will not contain the spinning blades obstacle",
+		section = obstaclesAvoid)
+	default boolean spinningBladesAvoid()
 	{
-		return 5;
+		return false;
 	}
 
-	@ConfigItem(keyName = "dartsweight",
-		name = "Darts weight",
-		description = "Weighting of the darts obstacle",
-		section = pathWeights)
-	@Range(min = 1, max = 999999)
-	default int dartsWeight()
+	@ConfigItem(keyName = "dartsavoid",
+		name = "Avoid Darts",
+		description = "If checked, the recommended path will not contain the darts obstacle",
+		section = obstaclesAvoid)
+	default boolean dartsAvoid()
 	{
-		return 10;
+		return false;
 	}
 }
