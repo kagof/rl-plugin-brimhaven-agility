@@ -13,6 +13,7 @@ import net.runelite.api.events.GameTick;
 import net.runelite.api.events.StatChanged;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.gameval.VarbitID;
+import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
@@ -31,6 +32,9 @@ public class BrimhavenAgilityPlugin extends Plugin
 	@Getter
 	@Inject
 	private Client client;
+
+	@Inject
+	private ClientThread clientThread;
 
 	@Inject
 	private OverlayManager overlayManager;
@@ -82,7 +86,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 		}
 	}
 
-	private boolean recomputePathIfNeeded()
+	private void recomputePathIfNeeded()
 	{
 		boolean changed = false;
 		if (isInAgilityArena() && ticketAvailable)
@@ -114,7 +118,6 @@ public class BrimhavenAgilityPlugin extends Plugin
 		{
 			log.debug("New Brimhaven Agility Arena path: {}", currentPath);
 		}
-		return changed;
 	}
 
 	@Subscribe
@@ -123,7 +126,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 		if (configChanged.getGroup().equals("brimhavenagility"))
 		{
 			currentPath = null;
-			recomputePathIfNeeded();
+			clientThread.invokeLater(this::recomputePathIfNeeded);
 		}
 	}
 

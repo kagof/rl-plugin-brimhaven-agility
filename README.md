@@ -2,6 +2,7 @@
 
 [![Total Installs](http://img.shields.io/endpoint?url=https://api.runelite.net/pluginhub/shields/installs/plugin/brimhaven-agility)](https://runelite.net/plugin-hub/show/brimhaven-agility)
 [![Plugin Rank](http://img.shields.io/endpoint?url=https://api.runelite.net/pluginhub/shields/rank/plugin/brimhaven-agility)](https://runelite.net/plugin-hub/show/brimhaven-agility)
+[![Build](https://img.shields.io/github/actions/workflow/status/kagof/rl-plugin-brimhaven-agility/build.yml?branch=master)](https://github.com/kagof/rl-plugin-brimhaven-agility)
 
 This is a [RuneLite](https://runelite.net/) plugin to help with the Brimhaven Agility Arena
 in [OSRS](https://oldschool.runescape.com/). It draws the shortest path (weighted by obstacle) to the active ticket

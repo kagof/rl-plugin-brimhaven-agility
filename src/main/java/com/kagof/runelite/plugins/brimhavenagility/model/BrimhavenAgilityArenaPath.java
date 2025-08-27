@@ -29,32 +29,32 @@ public class BrimhavenAgilityArenaPath
 	}
 
 	/**
-	 * @return the sub-path of this path which starts at the {@code newPlayerLocation} and ends at the
-	 * {@code newDispenserLocation}. If such a sub-path does not exist, returns {@code null}.
+	 * @return the sub-path of this path which starts at the {@code newStartLocation} and ends at the
+	 * {@code newEndLocation}. If such a sub-path does not exist, returns {@code null}.
 	 */
-	public BrimhavenAgilityArenaPath subPath(final WorldPoint newPlayerLocation, final WorldPoint newDispenserLocation)
+	public BrimhavenAgilityArenaPath subPath(final WorldPoint newStartLocation, final WorldPoint newEndLocation)
 	{
-		BrimhavenAgilityArenaLocation pl = BrimhavenAgilityArenaLocation.fromWorldPoint(newPlayerLocation);
-		BrimhavenAgilityArenaLocation dl = BrimhavenAgilityArenaLocation.fromWorldPoint(newDispenserLocation);
-		int pIndex = locations.indexOf(pl);
-		if (pIndex == -1)
+		BrimhavenAgilityArenaLocation sl = BrimhavenAgilityArenaLocation.fromWorldPoint(newStartLocation);
+		BrimhavenAgilityArenaLocation el = BrimhavenAgilityArenaLocation.fromWorldPoint(newEndLocation);
+		int sIndex = locations.indexOf(sl);
+		if (sIndex < 0)
 		{
 			return null;
 		}
-		int dIndex = locations.indexOf(dl);
-		if (dIndex == -1)
+		int eIndex = locations.indexOf(el);
+		if (eIndex < 0)
 		{
 			return null;
 		}
-		if (dIndex < pIndex)
+		if (eIndex < sIndex)
 		{
 			return null;
 		}
-		if (pIndex == 0 && dIndex == locations.size() - 1)
+		if (sIndex == 0 && eIndex == locations.size() - 1)
 		{
 			return this;
 		}
-		return new BrimhavenAgilityArenaPath(locations.subList(pIndex, pIndex + 1));
+		return new BrimhavenAgilityArenaPath(List.copyOf(locations.subList(sIndex, eIndex + 1)));
 	}
 
 	public List<WorldPoint> toWorldPoints()

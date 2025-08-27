@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.coords.WorldPoint;
 
 /**
@@ -18,8 +19,16 @@ import net.runelite.api.coords.WorldPoint;
  * target dispenser. Adapted from <a href="https://en.wikipedia.org/wiki/A*_search_algorithm#Pseudocode">Wikipedia's
  * pseudocode</a> implementation.
  */
+@Slf4j
 public final class BrimhavenAgilityPathFinder
 {
+	//belts & braces to ensure we never have an infinite loop
+
+	private static final int MAX_VISITED_NODES = 25;
+
+	// There are 25 nodes in the arena, each with at most 4 neighbours; we should never exceed this number
+	private static final int MAX_TOTAL_NEIGHBOURS = 100;
+
 	// not MAX_INT to avoid overflows
 	public static final int NEVER_USE_WEIGHT = 999999;
 
@@ -54,17 +63,36 @@ public final class BrimhavenAgilityPathFinder
 
 		Map<BrimhavenAgilityArenaLocation, BrimhavenAgilityArenaLocation> cameFrom = new HashMap<>();
 
+		int numVisitedNodes = 0;
+		int totalNeighboursExamined = 0;
 		while (!openSet.isEmpty())
 		{
 			final BrimhavenAgilityArenaLocation current = openSet.poll();
+			numVisitedNodes++;
 			if (current.equals(end))
 			{
 				return reconstructPath(cameFrom, current);
+			}
+			if (numVisitedNodes > MAX_VISITED_NODES)
+			{
+				log.warn("exceeded maximum number of nodes {}. This indicates a potential infinite loop", MAX_VISITED_NODES);
+				return null;
 			}
 
 			openSet.remove(current);
 			for (BrimhavenAgilityArenaNeighbour neighbour : BrimhavenAgilityArenaNeighbourDigest.getNeighbours(current))
 			{
+				totalNeighboursExamined++;
+				if (totalNeighboursExamined > MAX_TOTAL_NEIGHBOURS)
+				{
+					log.warn("exceeded maximum number of neighbours examined {}. This indicates a potential infinite loop", MAX_TOTAL_NEIGHBOURS);
+					return null;
+				}
+				if (neighbour.getLocation().equals(current))
+				{
+					log.warn("node {} marked as neighbour of itself", current);
+					continue;
+				}
 				int tentativeGScore = gScore.get(current) + weightedDistance(neighbour, playerAgilityLevel, config);
 				if (tentativeGScore < gScore.get(neighbour.getLocation()))
 				{
