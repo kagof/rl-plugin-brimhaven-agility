@@ -128,7 +128,7 @@ public final class BrimhavenAgilityPathFinder
 		List<BrimhavenAgilityArenaLocation> path = new ArrayList<>();
 		path.add(end);
 		BrimhavenAgilityArenaLocation current = end;
-		while (cameFrom.containsKey(current))
+		while (cameFrom.containsKey(current) && path.size() < MAX_VISITED_NODES)
 		{
 			current = cameFrom.get(current);
 			path.add(current);
