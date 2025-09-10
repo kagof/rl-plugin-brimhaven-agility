@@ -20,10 +20,19 @@ public interface BrimhavenAgilityConfig extends Config
 		return true;
 	}
 
+	@ConfigItem(keyName = "showglovewarning",
+		name = "Show glove warning",
+		description = "Whether to show the warning when not wearing the Karamja medium+ diary gloves when near or in the arena",
+		position = 1)
+	default boolean showGloveWarning()
+	{
+		return true;
+	}
+
 	@ConfigItem(keyName = "drawpath",
 		name = "Draw path",
 		description = "Whether or not to draw the shortest path to the currently active dispenser",
-		position = 1)
+		position = 2)
 	default boolean drawPath()
 	{
 		return true;
@@ -33,7 +42,7 @@ public interface BrimhavenAgilityConfig extends Config
 	@ConfigItem(keyName = "pathcolour",
 		name = "Path colour",
 		description = "The colour used to draw the path to the currently active dispenser",
-		position = 2)
+		position = 3)
 	default Color pathColour()
 	{
 		return new Color(255, 255, 255, 191);
@@ -42,7 +51,7 @@ public interface BrimhavenAgilityConfig extends Config
 	@ConfigSection(
 		name = "Obstacles to avoid",
 		description = "Configuration of obstacles to avoid when computing the path to the active dispenser",
-		position = 3)
+		position = 4)
 	String obstaclesAvoid = "obstaclesavoid";
 
 	@ConfigItem(keyName = "bladeavoid",

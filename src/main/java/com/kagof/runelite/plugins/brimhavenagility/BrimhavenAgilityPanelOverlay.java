@@ -27,7 +27,16 @@ public class BrimhavenAgilityPanelOverlay extends OverlayPanel
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
-		if (config.showEntryPanel() && plugin.isNearAgilityArenaEntrance())
+		boolean nearAgilityArenaEntrance = plugin.isNearAgilityArenaEntrance();
+		boolean inArena = plugin.isInAgilityArena();
+		boolean wearingGloves = plugin.isWearingKaramjaGloves234();
+		boolean hasCompletedDiary = plugin.isMediumDiaryCompleted();
+
+		boolean entryPanel = config.showEntryPanel() && nearAgilityArenaEntrance;
+		boolean gloveWarning = config.showGloveWarning() && hasCompletedDiary && !wearingGloves
+			&& (nearAgilityArenaEntrance || inArena);
+
+		if (entryPanel || gloveWarning)
 		{
 			boolean paid = plugin.isEntryPaid();
 			boolean cooldownPassed = plugin.isCooldownPassed();
@@ -35,16 +44,28 @@ public class BrimhavenAgilityPanelOverlay extends OverlayPanel
 				.text("Brimhaven Agility")
 				.build());
 
-			panelComponent.getChildren().add(LineComponent.builder()
-				.left("Entry fee:")
-				.right(paid ? "Paid" : "Not Paid")
-				.rightColor(paid ? Color.GREEN : Color.RED)
-				.build());
-			panelComponent.getChildren().add(LineComponent.builder()
-				.left("Cooldown:")
-				.right(cooldownPassed ? "Over" : "Active")
-				.rightColor(cooldownPassed ? Color.GREEN : Color.RED)
-				.build());
+			if (entryPanel)
+			{
+				panelComponent.getChildren().add(LineComponent.builder()
+					.left("Entry fee:")
+					.right(paid ? "Paid" : "Not Paid")
+					.rightColor(paid ? Color.GREEN : Color.RED)
+					.build());
+				panelComponent.getChildren().add(LineComponent.builder()
+					.left("Cooldown:")
+					.right(cooldownPassed ? "Over" : "Active")
+					.rightColor(cooldownPassed ? Color.GREEN : Color.RED)
+					.build());
+			}
+			// if the panel is showing for any reason & the glove warning is enabled, add the glove info to it
+			if (config.showGloveWarning())
+			{
+				panelComponent.getChildren().add(LineComponent.builder()
+					.left("Diary gloves:")
+					.right(wearingGloves ? "On" : hasCompletedDiary ? "Off" : "N/A")
+					.rightColor(wearingGloves ? Color.GREEN : hasCompletedDiary ? Color.RED : Color.LIGHT_GRAY)
+					.build());
+			}
 		}
 		return super.render(graphics);
 	}

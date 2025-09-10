@@ -23,9 +23,18 @@ and whether the entry fee has been paid.
 
 ![](images/entry.png)
 
+### Diary gloves warning
+
+A panel that appears when your account has completed at least all the tasks in the Karamja Easy &amp; Medium Diaries,
+but your character is not wearing the Karamja Gloves 2, 3, or 4. Only appears when near the entrance or in the arena.
+
+When worn, the Karamja Gloves 2, 3, and 4 all grant 10% extra agility experience from obstacles and cashing in tickets.
+
+![](images/gloves.png)
+
 ## Configuration
 
-Each feature of the plugin can be toggled on and off individually.
+Each [feature](#features) of the plugin can be toggled on and off individually.
 
 If the player wishes to avoid a particular obstacle, they can configure the path to do so. This may be useful to, for
 example, avoid the darts obstacle which lowers your agility level by 2 when failed.
