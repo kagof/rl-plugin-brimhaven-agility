@@ -11,21 +11,29 @@ import net.runelite.client.config.ConfigSection;
 public interface BrimhavenAgilityConfig extends Config
 {
 
-	// this config option is not useful at this time since this is the only feature of the plugin currently.
-	//	@ConfigItem(keyName = "drawpath",
-	//		name = "Draw path",
-	//		description = "Whether or not to draw the shortest path to the currently active dispenser",
-	//		position = 0)
-	//	default boolean drawPath()
-	//	{
-	//		return true;
-	//	}
+	@ConfigItem(keyName = "showentrypanel",
+		name = "Show entry panel",
+		description = "Whether to show the textbox indicating info about entering the arena, when near the entrance",
+		position = 0)
+	default boolean showEntryPanel()
+	{
+		return true;
+	}
+
+	@ConfigItem(keyName = "drawpath",
+		name = "Draw path",
+		description = "Whether or not to draw the shortest path to the currently active dispenser",
+		position = 1)
+	default boolean drawPath()
+	{
+		return true;
+	}
 
 	@Alpha
 	@ConfigItem(keyName = "pathcolour",
 		name = "Path colour",
 		description = "The colour used to draw the path to the currently active dispenser",
-		position = 1)
+		position = 2)
 	default Color pathColour()
 	{
 		return new Color(255, 255, 255, 191);
@@ -34,7 +42,7 @@ public interface BrimhavenAgilityConfig extends Config
 	@ConfigSection(
 		name = "Obstacles to avoid",
 		description = "Configuration of obstacles to avoid when computing the path to the active dispenser",
-		position = 2)
+		position = 3)
 	String obstaclesAvoid = "obstaclesavoid";
 
 	@ConfigItem(keyName = "bladeavoid",

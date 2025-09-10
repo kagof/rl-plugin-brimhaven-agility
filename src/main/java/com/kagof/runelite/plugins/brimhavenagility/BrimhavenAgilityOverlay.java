@@ -15,7 +15,7 @@ public class BrimhavenAgilityOverlay extends Overlay
 	private final BrimhavenAgilityConfig config;
 
 	@Inject
-	public BrimhavenAgilityOverlay(BrimhavenAgilityPlugin plugin, BrimhavenAgilityConfig config)
+	public BrimhavenAgilityOverlay(final BrimhavenAgilityPlugin plugin, final BrimhavenAgilityConfig config)
 	{
 		setPosition(OverlayPosition.DYNAMIC);
 		setLayer(OverlayLayer.ABOVE_SCENE);
@@ -26,7 +26,7 @@ public class BrimhavenAgilityOverlay extends Overlay
 	@Override
 	public Dimension render(final Graphics2D graphics2D)
 	{
-		if (!plugin.isInAgilityArena() || !plugin.isTicketAvailable())
+		if (!config.drawPath() || !plugin.isInAgilityArena() || !plugin.isTicketAvailable())
 		{
 			return null;
 		}

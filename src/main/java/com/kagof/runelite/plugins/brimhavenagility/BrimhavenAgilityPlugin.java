@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.Player;
 import net.runelite.api.Skill;
+import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.StatChanged;
@@ -27,7 +28,14 @@ import net.runelite.client.ui.overlay.OverlayManager;
 )
 public class BrimhavenAgilityPlugin extends Plugin
 {
+
+	private static final int ENTRY_PAID_VARBIT = VarbitID.AGILITYARENA_CANENTER;
+	private static final int COOLDOWN_REQUIRED_VARBIT = VarbitID.AGILITY_ARENA_TELEPORTED_OUT;
+	private static final int TICKET_AVAILABLE_VARBIT = VarbitID.AGILITYARENA_TICKETAVAILABLE;
+
 	public static final int AGILITY_ARENA_REGION_ID = 11157;
+
+	private static final WorldArea ARENA_ENTRY_AREA = new WorldArea(2805, 3185, 7, 11, 0);
 
 	@Getter
 	@Inject
@@ -43,28 +51,41 @@ public class BrimhavenAgilityPlugin extends Plugin
 	private BrimhavenAgilityOverlay overlay;
 
 	@Inject
+	private BrimhavenAgilityPanelOverlay panelOverlay;
+
+	@Inject
 	private BrimhavenAgilityConfig config;
 
 	@Getter
-	private int agilityLevel;
+	private volatile int agilityLevel;
 	@Getter
-	private BrimhavenAgilityArenaPath currentPath;
+	private volatile BrimhavenAgilityArenaPath currentPath;
 	@Getter
-	private boolean ticketAvailable;
+	private volatile boolean ticketAvailable;
+	@Getter
+	private volatile boolean entryPaid;
+	@Getter
+	private volatile boolean cooldownPassed;
 
 	@Override
 	protected void startUp() throws Exception
 	{
 		overlayManager.add(overlay);
+		overlayManager.add(panelOverlay);
 		agilityLevel = client.getBoostedSkillLevel(Skill.AGILITY);
 		currentPath = null;
-		ticketAvailable = true;
+		clientThread.invokeLater(() -> {
+			ticketAvailable = client.getVarbitValue(TICKET_AVAILABLE_VARBIT) > 0;
+			entryPaid = client.getVarbitValue(ENTRY_PAID_VARBIT) > 0;
+			cooldownPassed = client.getVarbitValue(COOLDOWN_REQUIRED_VARBIT) == 0;
+		});
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
 		overlayManager.remove(overlay);
+		overlayManager.remove(panelOverlay);
 		BrimhavenAgilityArenaNeighbourDigest.unload();
 		agilityLevel = 0;
 		currentPath = null;
@@ -80,9 +101,17 @@ public class BrimhavenAgilityPlugin extends Plugin
 	@Subscribe
 	public void onVarbitChanged(final VarbitChanged event)
 	{
-		if (event.getVarbitId() == VarbitID.AGILITYARENA_TICKETAVAILABLE)
+		switch (event.getVarbitId())
 		{
-			ticketAvailable = event.getValue() > 0;
+			case ENTRY_PAID_VARBIT:
+				entryPaid = event.getValue() > 0;
+				break;
+			case COOLDOWN_REQUIRED_VARBIT:
+				cooldownPassed = event.getValue() == 0;
+				break;
+			case TICKET_AVAILABLE_VARBIT:
+				ticketAvailable = event.getValue() > 0;
+				break;
 		}
 	}
 
@@ -146,6 +175,21 @@ public class BrimhavenAgilityPlugin extends Plugin
 	BrimhavenAgilityConfig provideConfig(ConfigManager configManager)
 	{
 		return configManager.getConfig(BrimhavenAgilityConfig.class);
+	}
+
+	public boolean isNearAgilityArenaEntrance()
+	{
+		Player local = client.getLocalPlayer();
+		if (local == null)
+		{
+			return false;
+		}
+		WorldPoint location = local.getWorldLocation();
+		if (location == null)
+		{
+			return false;
+		}
+		return location.isInArea(ARENA_ENTRY_AREA);
 	}
 
 

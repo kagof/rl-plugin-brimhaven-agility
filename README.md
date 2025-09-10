@@ -5,14 +5,29 @@
 [![Build](https://img.shields.io/github/actions/workflow/status/kagof/rl-plugin-brimhaven-agility/build.yml?branch=master)](https://github.com/kagof/rl-plugin-brimhaven-agility)
 
 This is a [RuneLite](https://runelite.net/) plugin to help with the Brimhaven Agility Arena
-in [OSRS](https://oldschool.runescape.com/). It draws the shortest path (weighted by obstacle) to the active ticket
-dispenser, taking into account your character's agility level. The path is found using the A* pathfinding algorithm.
+in [OSRS](https://oldschool.runescape.com/).
+
+## Features
+
+### Pathfinder
+
+Draws the shortest path (weighted by obstacle) to the active ticket dispenser, taking into account your character's
+agility level. The path is found using the A* pathfinding algorithm.
 
 ![](images/example.png)
 
+### Entry panel
+
+A panel that appears when near the entry of the agility arena, indicating whether the exit cooldown period has elapsed
+and whether the entry fee has been paid.
+
+![](images/entry.png)
+
 ## Configuration
 
-If the player wishes to avoid a particular obstacle, they can do so using configuration. This may be useful to, for
+Each feature of the plugin can be toggled on and off individually.
+
+If the player wishes to avoid a particular obstacle, they can configure the path to do so. This may be useful to, for
 example, avoid the darts obstacle which lowers your agility level by 2 when failed.
 
 ![](images/config.png)
@@ -23,8 +38,6 @@ These are potential ideas for future expansions of this plugin.
 
 * removing the hint arrow once the ticket has been claimed
 * highlighting the correct plank to use on the 3 plank obstacle
-* an overlay when outside the arena displaying whether the player can enter (taking into account the teleport time-out
-  and whether the player has paid or not)
 
 ## Acknowledgements
 
