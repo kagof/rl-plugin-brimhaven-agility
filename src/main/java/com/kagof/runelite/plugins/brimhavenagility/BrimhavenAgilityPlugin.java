@@ -17,6 +17,7 @@ import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.gameval.ItemID;
 import net.runelite.api.gameval.VarbitID;
 import net.runelite.api.kit.KitType;
+import net.runelite.client.Notifier;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -67,6 +68,9 @@ public class BrimhavenAgilityPlugin extends Plugin
 
 	@Inject
 	private BrimhavenAgilityConfig config;
+
+	@Inject
+	private Notifier notifier;
 
 	@Getter
 	private volatile int agilityLevel;
@@ -129,6 +133,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 				break;
 			case TICKET_AVAILABLE_VARBIT:
 				ticketAvailable = event.getValue() > 0;
+				onTicketUpdate();
 				break;
 			case KARAMJA_EASY_VARBIT:
 				easyTasksCompleted = event.getValue();
@@ -251,5 +256,50 @@ public class BrimhavenAgilityPlugin extends Plugin
 	public boolean isMediumDiaryCompleted()
 	{
 		return easyTasksCompleted == KARAMJA_EASY_TASKS && mediumTasksCompleted == KARAMJA_MEDIUM_TASKS;
+	}
+
+	public void onTicketUpdate()
+	{
+		if (!isInAgilityArena())
+		{
+			return;
+		}
+
+		if (ticketAvailable)
+		{
+			notifier.notify(config.notifyTicketAvailable(), "Brimhaven ticket available!");
+
+			if (config.ticketAvailableSound())
+			{
+				playSoundEffect(config.ticketAvailableSoundId());
+			}
+		}
+		else
+		{
+			if (config.ticketClaimedSound())
+			{
+				playSoundEffect(config.ticketClaimedSoundId());
+			}
+
+			if (config.hideHintArrow())
+			{
+				client.clearHintArrow();
+			}
+		}
+	}
+
+	private void playSoundEffect(final int soundId)
+	{
+		final var volume = config.soundVolume();
+		if (volume <= 0)
+		{
+			return;
+		}
+
+		final var userVolume = client.getPreferences().getSoundEffectVolume();
+
+		client.getPreferences().setSoundEffectVolume(volume);
+		client.playSoundEffect(soundId, 0);
+		client.getPreferences().setSoundEffectVolume(userVolume);
 	}
 }

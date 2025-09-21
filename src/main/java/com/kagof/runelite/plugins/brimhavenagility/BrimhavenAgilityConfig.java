@@ -6,6 +6,9 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.ConfigSection;
+import net.runelite.client.config.Notification;
+import net.runelite.client.config.Range;
+import net.runelite.client.config.Units;
 
 @ConfigGroup("brimhavenagility")
 public interface BrimhavenAgilityConfig extends Config
@@ -48,10 +51,75 @@ public interface BrimhavenAgilityConfig extends Config
 		return new Color(255, 255, 255, 191);
 	}
 
-	@ConfigSection(
+	@ConfigItem(keyName = "notifyTicketAvailable",
+		name = "Notify ticket available",
+		description = "Send a notification when a ticket is available",
+		position = 4)
+	default Notification notifyTicketAvailable()
+	{
+		return Notification.OFF;
+	}
+
+	@ConfigItem(keyName = "ticketClaimedSound",
+		name = "Ticket claimed sound",
+		description = "Play a sound when a ticket is claimed",
+		position = 5)
+	default boolean ticketClaimedSound()
+	{
+		return false;
+	}
+
+	@ConfigItem(keyName = "ticketClaimedSoundId",
+		name = "Sound ID",
+		description = "The ID of the sound effect to play when a ticket is claimed",
+		position = 6)
+	default int ticketClaimedSoundId()
+	{
+		return 2655;
+	}
+
+	@ConfigItem(keyName = "ticketAvailableSound",
+		name = "Ticket available sound",
+		description = "Play a sound when a ticket is available",
+		position = 7)
+	default boolean ticketAvailableSound()
+	{
+		return false;
+	}
+
+	@ConfigItem(keyName = "ticketAvailableSoundId",
+		name = "Sound ID",
+		description = "The ID of the sound effect to play when a ticket is available",
+		position = 8)
+	default int ticketAvailableSoundId()
+	{
+		return 9512;
+	}
+
+	@Range(max = 100)
+	@Units(Units.PERCENT)
+	@ConfigItem(keyName = "soundVolume",
+		name = "Sound volume",
+		description = "Volume of ticket sound effects",
+		position = 9)
+	default int soundVolume()
+	{
+		return 50;
+	}
+
+	@ConfigItem(keyName = "hideHintArrow",
+		name = "Hide hint arrow",
+		description = "Hide the hint arrow when ticket is claimed",
+		position = 10)
+	default boolean hideHintArrow()
+	{
+		return false;
+	}
+
+	@ConfigSection(closedByDefault = true,
 		name = "Obstacles to avoid",
 		description = "Configuration of obstacles to avoid when computing the path to the active dispenser",
-		position = 4)
+		position = 11)
 	String obstaclesAvoid = "obstaclesavoid";
 
 	@ConfigItem(keyName = "bladeavoid",
