@@ -29,6 +29,16 @@ public interface BrimhavenAgilityConfig extends Config
 		return true;
 	}
 
+	@ConfigItem(keyName = "removearrowwhenclaimed",
+		name = "Remove arrow when claimed",
+		description = "Whether to remove the hint arrow when you have already obtained the ticket from this dispenser",
+		position = 1)
+	default boolean removeArrowWhenClaimed()
+	{
+		return true;
+	}
+
+
 	@ConfigItem(keyName = "drawpath",
 		name = "Draw path",
 		description = "Whether or not to draw the shortest path to the currently active dispenser",
