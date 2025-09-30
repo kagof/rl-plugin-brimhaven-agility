@@ -3,6 +3,8 @@
 [![Total Installs](http://img.shields.io/endpoint?url=https://api.runelite.net/pluginhub/shields/installs/plugin/brimhaven-agility)](https://runelite.net/plugin-hub/show/brimhaven-agility)
 [![Plugin Rank](http://img.shields.io/endpoint?url=https://api.runelite.net/pluginhub/shields/rank/plugin/brimhaven-agility)](https://runelite.net/plugin-hub/show/brimhaven-agility)
 [![Build](https://img.shields.io/github/actions/workflow/status/kagof/rl-plugin-brimhaven-agility/build.yml?branch=master)](https://github.com/kagof/rl-plugin-brimhaven-agility)
+![Last Release](https://img.shields.io/github/v/tag/kagof/rl-plugin-brimhaven-agility?label=Last%20Release)
+![Git Version](https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkagof%2Frl-plugin-brimhaven-agility%2Frefs%2Fheads%2Fmaster%2Fgradle.properties&search=plugin_version%3D(.*)&replace=v%241&label=Git%20Version)
 
 This is a [RuneLite](https://runelite.net/) plugin to help with the Brimhaven Agility Arena
 in [OSRS](https://oldschool.runescape.com/).

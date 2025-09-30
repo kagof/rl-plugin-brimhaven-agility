@@ -38,14 +38,14 @@ public class BrimhavenAgilityPanelOverlay extends OverlayPanel
 
 		if (entryPanel || gloveWarning)
 		{
-			boolean paid = plugin.isEntryPaid();
-			boolean cooldownPassed = plugin.isCooldownPassed();
 			panelComponent.getChildren().add(TitleComponent.builder()
 				.text("Brimhaven Agility")
 				.build());
 
 			if (entryPanel)
 			{
+				boolean paid = plugin.isEntryPaid();
+				boolean cooldownPassed = plugin.isCooldownPassed();
 				panelComponent.getChildren().add(LineComponent.builder()
 					.left("Entry fee:")
 					.right(paid ? "Paid" : "Not Paid")
