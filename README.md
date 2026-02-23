@@ -34,6 +34,13 @@ When worn, the Karamja Gloves 2, 3, and 4 all grant 10% extra agility experience
 
 ![](images/gloves.png)
 
+### Plank obstacle solver
+
+Highlights the correct plank of the three planks obstacle to use. Also, deprioritizes the "Walk-on" menu option for the
+incorrect planks.
+
+![](images/planks.png)
+
 ## Configuration
 
 Each [feature](#features) of the plugin can be toggled on and off individually.
@@ -47,12 +54,16 @@ example, avoid the darts obstacle which lowers your agility level by 2 when fail
 
 These are potential ideas for future expansions of this plugin.
 
-* removing the hint arrow once the ticket has been claimed
-* highlighting the correct plank to use on the 3 plank obstacle
+* removing the hint arrow once the ticket has been claimed. A branch exists for
+  this [here](https://github.com/kagof/rl-plugin-brimhaven-agility/compare/remove-hint), but it breaks some of the core
+  Agility plugin's functionality, therefore [this PR](https://github.com/runelite/runelite/pull/19407) needs to be
+  accepted into Runelite before this feature can be added
 
 ## Changelog
 
 ### Unreleased
+
+* new configurable feature - highlighting & menu deprioritization for the 3 planks obstacle
 
 ### [1.1.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.1.0)
 

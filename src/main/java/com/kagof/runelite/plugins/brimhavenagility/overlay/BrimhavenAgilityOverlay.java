@@ -1,5 +1,7 @@
-package com.kagof.runelite.plugins.brimhavenagility;
+package com.kagof.runelite.plugins.brimhavenagility.overlay;
 
+import com.kagof.runelite.plugins.brimhavenagility.BrimhavenAgilityConfig;
+import com.kagof.runelite.plugins.brimhavenagility.BrimhavenAgilityPlugin;
 import com.kagof.runelite.plugins.brimhavenagility.model.BrimhavenAgilityArenaPath;
 import com.kagof.runelite.plugins.brimhavenagility.questhelper.WorldLines;
 import java.awt.Dimension;

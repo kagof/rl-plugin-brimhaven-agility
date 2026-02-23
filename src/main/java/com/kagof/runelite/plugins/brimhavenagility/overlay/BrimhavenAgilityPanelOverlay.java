@@ -1,5 +1,7 @@
-package com.kagof.runelite.plugins.brimhavenagility;
+package com.kagof.runelite.plugins.brimhavenagility.overlay;
 
+import com.kagof.runelite.plugins.brimhavenagility.BrimhavenAgilityConfig;
+import com.kagof.runelite.plugins.brimhavenagility.BrimhavenAgilityPlugin;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;

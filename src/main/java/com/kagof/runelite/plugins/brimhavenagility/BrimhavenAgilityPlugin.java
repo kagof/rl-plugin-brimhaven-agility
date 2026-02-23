@@ -2,16 +2,24 @@ package com.kagof.runelite.plugins.brimhavenagility;
 
 import com.google.inject.Provides;
 import com.kagof.runelite.plugins.brimhavenagility.model.BrimhavenAgilityArenaPath;
+import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityOverlay;
+import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityPanelOverlay;
+import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityPlankOverlay;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
+import net.runelite.api.MenuAction;
 import net.runelite.api.Player;
 import net.runelite.api.PlayerComposition;
 import net.runelite.api.Skill;
+import net.runelite.api.WorldView;
 import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.GameTick;
+import net.runelite.api.events.GroundObjectDespawned;
+import net.runelite.api.events.GroundObjectSpawned;
+import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.events.StatChanged;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.gameval.ItemID;
@@ -66,7 +74,14 @@ public class BrimhavenAgilityPlugin extends Plugin
 	private BrimhavenAgilityPanelOverlay panelOverlay;
 
 	@Inject
+	private BrimhavenAgilityPlankOverlay plankOverlay;
+
+	@Inject
 	private BrimhavenAgilityConfig config;
+
+	@Inject
+	@Getter
+	private BrimhavenAgilityPlankManager plankManager;
 
 	@Getter
 	private volatile int agilityLevel;
@@ -86,6 +101,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 	{
 		overlayManager.add(overlay);
 		overlayManager.add(panelOverlay);
+		overlayManager.add(plankOverlay);
 		agilityLevel = client.getBoostedSkillLevel(Skill.AGILITY);
 		currentPath = null;
 		clientThread.invokeLater(() -> {
@@ -102,7 +118,9 @@ public class BrimhavenAgilityPlugin extends Plugin
 	{
 		overlayManager.remove(overlay);
 		overlayManager.remove(panelOverlay);
+		overlayManager.remove(plankOverlay);
 		BrimhavenAgilityArenaNeighbourDigest.unload();
+		plankManager.clear();
 		agilityLevel = 0;
 		currentPath = null;
 		ticketAvailable = true;
@@ -113,7 +131,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 	@Subscribe
 	public void onGameTick(final GameTick tick)
 	{
-		recomputePathIfNeeded();
+		recompute();
 	}
 
 	@Subscribe
@@ -136,6 +154,53 @@ public class BrimhavenAgilityPlugin extends Plugin
 			case KARAMJA_MEDIUM_VARBIT:
 				mediumTasksCompleted = event.getValue();
 				break;
+		}
+	}
+
+	@Subscribe
+	public void onGroundObjectSpawned(final GroundObjectSpawned event)
+	{
+		if (AGILITY_ARENA_REGION_ID == event.getGroundObject().getWorldLocation().getRegionID())
+		{
+			plankManager.add(event.getGroundObject());
+		}
+	}
+
+	@Subscribe
+	public void onGroundObjectDespawned(final GroundObjectDespawned event)
+	{
+		if (AGILITY_ARENA_REGION_ID == event.getGroundObject().getWorldLocation().getRegionID())
+		{
+			plankManager.remove(event.getGroundObject());
+		}
+	}
+
+	@Subscribe
+	public void onMenuEntryAdded(MenuEntryAdded event)
+	{
+		if (!config.deprioritizeIncorrectPlank())
+		{
+			return;
+		}
+		if (MenuAction.of(event.getType()) == MenuAction.GAME_OBJECT_FIRST_OPTION
+			&& event.getOption().equals("Walk-on")
+			&& event.getTarget().contains("Plank"))
+		{
+			deprioritizePlankMenuOptionIfNeeded(event);
+		}
+	}
+
+	private void recompute()
+	{
+		recomputePlanksIfNeeded();
+		recomputePathIfNeeded();
+	}
+
+	private void recomputePlanksIfNeeded()
+	{
+		if (isInAgilityArena() && (config.highlightCorrectPlank() || config.deprioritizeIncorrectPlank()))
+		{
+			plankManager.recomputeCorrectPlanks();
 		}
 	}
 
@@ -179,7 +244,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 		if (configChanged.getGroup().equals("brimhavenagility"))
 		{
 			currentPath = null;
-			clientThread.invokeLater(this::recomputePathIfNeeded);
+			clientThread.invokeLater(this::recompute);
 		}
 	}
 
@@ -251,5 +316,15 @@ public class BrimhavenAgilityPlugin extends Plugin
 	public boolean isMediumDiaryCompleted()
 	{
 		return easyTasksCompleted == KARAMJA_EASY_TASKS && mediumTasksCompleted == KARAMJA_MEDIUM_TASKS;
+	}
+
+	private void deprioritizePlankMenuOptionIfNeeded(final MenuEntryAdded event)
+	{
+		final WorldView wv = client.getWorldView(event.getMenuEntry().getWorldViewId());
+		final WorldPoint point = WorldPoint.fromScene(wv, event.getActionParam0(), event.getActionParam1(), wv.getPlane());
+		if (plankManager.isOnBadPlank(point))
+		{
+			event.getMenuEntry().setDeprioritized(true);
+		}
 	}
 }
