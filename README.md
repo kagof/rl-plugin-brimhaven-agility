@@ -50,6 +50,19 @@ These are potential ideas for future expansions of this plugin.
 * removing the hint arrow once the ticket has been claimed
 * highlighting the correct plank to use on the 3 plank obstacle
 
+## Changelog
+
+### Unreleased
+
+### [1.1.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.1.0)
+
+* new configurable feature - entry panel
+* new configurable feature - Karamja gloves warning
+
+### [1.0.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.0.0)
+
+* computes & displays shortest path to active dispenser, with configurable options
+
 ## Acknowledgements
 
 * Wouldn't be possible without the excellent [RuneLite](https://github.com/runelite/runelite), and has been generated
