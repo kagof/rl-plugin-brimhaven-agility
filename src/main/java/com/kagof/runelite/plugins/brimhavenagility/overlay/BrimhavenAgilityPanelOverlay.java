@@ -48,6 +48,7 @@ public class BrimhavenAgilityPanelOverlay extends OverlayPanel
 			{
 				boolean paid = plugin.isEntryPaid();
 				boolean cooldownPassed = plugin.isCooldownPassed();
+				boolean hasNoFollower = plugin.isHasNoFollower();
 				panelComponent.getChildren().add(LineComponent.builder()
 					.left("Entry fee:")
 					.right(paid ? "Paid" : "Not Paid")
@@ -57,6 +58,11 @@ public class BrimhavenAgilityPanelOverlay extends OverlayPanel
 					.left("Cooldown:")
 					.right(cooldownPassed ? "Over" : "Active")
 					.rightColor(cooldownPassed ? Color.GREEN : Color.RED)
+					.build());
+				panelComponent.getChildren().add(LineComponent.builder()
+					.left("Follower:")
+					.right(hasNoFollower ? "No" : "Yes")
+					.rightColor(hasNoFollower ? Color.GREEN : Color.RED)
 					.build());
 			}
 			// if the panel is showing for any reason & the glove warning is enabled, add the glove info to it

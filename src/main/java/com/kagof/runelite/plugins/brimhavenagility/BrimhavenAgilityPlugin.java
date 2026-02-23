@@ -23,6 +23,7 @@ import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.events.StatChanged;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.gameval.ItemID;
+import net.runelite.api.gameval.VarPlayerID;
 import net.runelite.api.gameval.VarbitID;
 import net.runelite.api.kit.KitType;
 import net.runelite.client.callback.ClientThread;
@@ -45,6 +46,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 	private static final int TICKET_AVAILABLE_VARBIT = VarbitID.AGILITYARENA_TICKETAVAILABLE;
 	private static final int KARAMJA_EASY_VARBIT = VarbitID.KARAMJA_EASY_COUNT;
 	private static final int KARAMJA_MEDIUM_VARBIT = VarbitID.KARAMJA_MED_COUNT;
+	private static final int FOLLOWER_NPC = VarPlayerID.FOLLOWER_NPC;
 
 	private static final int KARAMJA_EASY_TASKS = 10;
 	private static final int KARAMJA_MEDIUM_TASKS = 19;
@@ -95,6 +97,8 @@ public class BrimhavenAgilityPlugin extends Plugin
 	private volatile boolean cooldownPassed;
 	private volatile int easyTasksCompleted;
 	private volatile int mediumTasksCompleted;
+	@Getter
+	private volatile boolean hasNoFollower;
 
 	@Override
 	protected void startUp() throws Exception
@@ -110,6 +114,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 			cooldownPassed = client.getVarbitValue(COOLDOWN_REQUIRED_VARBIT) == 0;
 			easyTasksCompleted = client.getVarbitValue(KARAMJA_EASY_VARBIT);
 			mediumTasksCompleted = client.getVarbitValue(KARAMJA_MEDIUM_VARBIT);
+			hasNoFollower = client.getVarpValue(FOLLOWER_NPC) == -1;
 		});
 	}
 
@@ -126,6 +131,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 		ticketAvailable = true;
 		easyTasksCompleted = 0;
 		mediumTasksCompleted = 0;
+		hasNoFollower = true;
 	}
 
 	@Subscribe
@@ -153,6 +159,13 @@ public class BrimhavenAgilityPlugin extends Plugin
 				break;
 			case KARAMJA_MEDIUM_VARBIT:
 				mediumTasksCompleted = event.getValue();
+				break;
+		}
+		//noinspection SwitchStatementWithTooFewBranches
+		switch (event.getVarpId())
+		{
+			case FOLLOWER_NPC:
+				hasNoFollower = event.getValue() == -1;
 				break;
 		}
 	}

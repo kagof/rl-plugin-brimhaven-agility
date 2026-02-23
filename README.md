@@ -20,8 +20,8 @@ agility level. The path is found using the A* pathfinding algorithm.
 
 ### Entry panel
 
-A panel that appears when near the entry of the agility arena, indicating whether the exit cooldown period has elapsed
-and whether the entry fee has been paid.
+A panel that appears when near the entry of the agility arena, indicating whether the exit cooldown period has elapsed,
+whether the entry fee has been paid, and whether the user has a follower.
 
 ![](images/entry.png)
 
@@ -64,6 +64,7 @@ These are potential ideas for future expansions of this plugin.
 ### Unreleased
 
 * new configurable feature - highlighting & menu deprioritization for the 3 planks obstacle
+* adds follower check to entry panel
 
 ### [1.1.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.1.0)
 
