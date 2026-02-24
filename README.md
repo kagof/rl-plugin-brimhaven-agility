@@ -63,6 +63,10 @@ These are potential ideas for future expansions of this plugin.
 
 ### Unreleased
 
+*
+
+### [1.2.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.2.0)
+
 * new configurable feature - highlighting & menu deprioritization for the 3 planks obstacle
 * adds follower check to entry panel
 
