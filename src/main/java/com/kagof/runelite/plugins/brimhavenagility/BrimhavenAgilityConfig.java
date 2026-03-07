@@ -186,21 +186,11 @@ public interface BrimhavenAgilityConfig extends Config
 		position = 5)
 	String planks = "planks";
 
-	@ConfigItem(keyName = "deprioritizeincorrectplank",
-		name = "Deprioritize incorrect plank",
-		description = "Whether or not to deprioritize the \"Walk-on\" option on the incorrect planks",
-		section = planks,
-		position = 0)
-	default boolean deprioritizeIncorrectPlank()
-	{
-		return true;
-	}
-
 	@ConfigItem(keyName = "highlightcorrectplank",
 		name = "Highlight correct plank",
 		description = "Whether or not to highlight the correct plank of the three plank obstacle",
 		section = planks,
-		position = 1)
+		position = 0)
 	default boolean highlightCorrectPlank()
 	{
 		return true;
@@ -210,7 +200,7 @@ public interface BrimhavenAgilityConfig extends Config
 		name = "Highlight entire plank",
 		description = "Whether to highlight the entire plank, or just the ends",
 		section = planks,
-		position = 2)
+		position = 1)
 	default boolean highlightEntirePlank()
 	{
 		return false;
@@ -221,7 +211,7 @@ public interface BrimhavenAgilityConfig extends Config
 		name = "Correct plank colour",
 		description = "The colour used to highlight the correct plank",
 		section = planks,
-		position = 3)
+		position = 2)
 	default Color correctPlankColour()
 	{
 		return Color.GREEN;
@@ -232,7 +222,7 @@ public interface BrimhavenAgilityConfig extends Config
 		name = "Incorrect plank colour",
 		description = "The colour used to highlight the incorrect plank",
 		section = planks,
-		position = 4)
+		position = 3)
 	default Color incorrectPlankColour()
 	{
 		return Color.RED;

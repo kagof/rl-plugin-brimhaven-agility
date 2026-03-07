@@ -9,17 +9,14 @@ import javax.inject.Inject;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
-import net.runelite.api.MenuAction;
 import net.runelite.api.Player;
 import net.runelite.api.PlayerComposition;
 import net.runelite.api.Skill;
-import net.runelite.api.WorldView;
 import net.runelite.api.coords.WorldArea;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.GroundObjectDespawned;
 import net.runelite.api.events.GroundObjectSpawned;
-import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.events.StatChanged;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.gameval.ItemID;
@@ -188,21 +185,6 @@ public class BrimhavenAgilityPlugin extends Plugin
 		}
 	}
 
-	@Subscribe
-	public void onMenuEntryAdded(MenuEntryAdded event)
-	{
-		if (!config.deprioritizeIncorrectPlank())
-		{
-			return;
-		}
-		if (MenuAction.of(event.getType()) == MenuAction.GAME_OBJECT_FIRST_OPTION
-			&& event.getOption().equals("Walk-on")
-			&& event.getTarget().contains("Plank"))
-		{
-			deprioritizePlankMenuOptionIfNeeded(event);
-		}
-	}
-
 	private void recompute()
 	{
 		recomputePlanksIfNeeded();
@@ -211,7 +193,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 
 	private void recomputePlanksIfNeeded()
 	{
-		if (isInAgilityArena() && (config.highlightCorrectPlank() || config.deprioritizeIncorrectPlank()))
+		if (isInAgilityArena() && config.highlightCorrectPlank())
 		{
 			plankManager.recomputeCorrectPlanks();
 		}
@@ -329,15 +311,5 @@ public class BrimhavenAgilityPlugin extends Plugin
 	public boolean isMediumDiaryCompleted()
 	{
 		return easyTasksCompleted == KARAMJA_EASY_TASKS && mediumTasksCompleted == KARAMJA_MEDIUM_TASKS;
-	}
-
-	private void deprioritizePlankMenuOptionIfNeeded(final MenuEntryAdded event)
-	{
-		final WorldView wv = client.getWorldView(event.getMenuEntry().getWorldViewId());
-		final WorldPoint point = WorldPoint.fromScene(wv, event.getActionParam0(), event.getActionParam1(), wv.getPlane());
-		if (plankManager.isOnBadPlank(point))
-		{
-			event.getMenuEntry().setDeprioritized(true);
-		}
 	}
 }
