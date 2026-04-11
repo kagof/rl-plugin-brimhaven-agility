@@ -57,13 +57,6 @@ public class BrimhavenAgilityArenaPath
 		return new BrimhavenAgilityArenaPath(List.copyOf(locations.subList(sIndex, eIndex + 1)));
 	}
 
-	public List<WorldPoint> toWorldPoints()
-	{
-		return locations.stream()
-			.map(BrimhavenAgilityArenaLocation::toCenteredWorldPoint)
-			.collect(Collectors.toList());
-	}
-
 	@Override
 	public String toString()
 	{

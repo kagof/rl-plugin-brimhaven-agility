@@ -217,7 +217,8 @@ public class BrimhavenAgilityPlugin extends Plugin
 
 	private void recomputePlanksIfNeeded()
 	{
-		if (isInAgilityArena() && (config.highlightCorrectPlank() || config.highlightPlankMenuOptions()))
+		if (isInAgilityArena() &&
+			(config.highlightCorrectPlank() || config.highlightPlankMenuOptions() || config.adjustPathForPlanks()))
 		{
 			plankManager.recomputeCorrectPlanks();
 		}

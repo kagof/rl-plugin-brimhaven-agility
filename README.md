@@ -53,7 +53,9 @@ example, avoid the darts obstacle which lowers your agility level by 2 when fail
 
 ## Possible future features
 
-(none planned)
+* [#5](https://github.com/kagof/rl-plugin-brimhaven-agility/issues/5) Configurable notification when the new active
+  dispenser moves to within `n` platforms of the player, for people AFKing
+  the floor spikes.
 
 ## Rejected features
 
@@ -66,6 +68,7 @@ example, avoid the darts obstacle which lowers your agility level by 2 when fail
 ### [Unreleased]()
 
 * new configurable feature - highlight 3 plank menu options
+* new configurable feature - adjust path to account for the correct plank to use
 * new configurable feature - removing the hint arrow once the ticket has been claimed
 
 ### [1.2.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.2.0)

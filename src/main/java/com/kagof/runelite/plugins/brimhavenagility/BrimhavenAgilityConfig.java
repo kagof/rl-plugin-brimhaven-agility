@@ -225,12 +225,22 @@ public interface BrimhavenAgilityConfig extends Config
 		return true;
 	}
 
+	@ConfigItem(keyName = "adjustpathforplanks",
+		name = "Adjust path for planks",
+		description = "Whether to adjust the path for the correct plank to use",
+		section = planks,
+		position = 3)
+	default boolean adjustPathForPlanks()
+	{
+		return true;
+	}
+
 	@Alpha
 	@ConfigItem(keyName = "correctplankcolour",
 		name = "Correct plank colour",
 		description = "The colour used to highlight the correct plank",
 		section = planks,
-		position = 3)
+		position = 4)
 	default Color correctPlankColour()
 	{
 		return Color.GREEN;
@@ -241,7 +251,7 @@ public interface BrimhavenAgilityConfig extends Config
 		name = "Incorrect plank colour",
 		description = "The colour used to highlight the incorrect plank",
 		section = planks,
-		position = 4)
+		position = 5)
 	default Color incorrectPlankColour()
 	{
 		return Color.RED;
