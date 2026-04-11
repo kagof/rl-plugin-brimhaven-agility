@@ -53,12 +53,7 @@ example, avoid the darts obstacle which lowers your agility level by 2 when fail
 
 ## Possible future features
 
-These are potential ideas for future expansions of this plugin.
-
-* removing the hint arrow once the ticket has been claimed. A branch exists for
-  this [here](https://github.com/kagof/rl-plugin-brimhaven-agility/compare/remove-hint), but it breaks some of the core
-  Agility plugin's functionality, therefore [this PR](https://github.com/runelite/runelite/pull/19407) needs to be
-  accepted into Runelite before this feature can be added
+(none planned)
 
 ## Rejected features
 
@@ -71,6 +66,7 @@ These are potential ideas for future expansions of this plugin.
 ### [Unreleased]()
 
 * new configurable feature - highlight 3 plank menu options
+* new configurable feature - removing the hint arrow once the ticket has been claimed
 
 ### [1.2.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.2.0)
 
