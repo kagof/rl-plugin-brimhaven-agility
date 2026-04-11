@@ -1,5 +1,7 @@
-package com.kagof.runelite.plugins.brimhavenagility;
+package com.kagof.runelite.plugins.brimhavenagility.overlay;
 
+import com.kagof.runelite.plugins.brimhavenagility.BrimhavenAgilityConfig;
+import com.kagof.runelite.plugins.brimhavenagility.BrimhavenAgilityPlugin;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -38,14 +40,15 @@ public class BrimhavenAgilityPanelOverlay extends OverlayPanel
 
 		if (entryPanel || gloveWarning)
 		{
-			boolean paid = plugin.isEntryPaid();
-			boolean cooldownPassed = plugin.isCooldownPassed();
 			panelComponent.getChildren().add(TitleComponent.builder()
 				.text("Brimhaven Agility")
 				.build());
 
 			if (entryPanel)
 			{
+				boolean paid = plugin.isEntryPaid();
+				boolean cooldownPassed = plugin.isCooldownPassed();
+				boolean hasNoFollower = plugin.isHasNoFollower();
 				panelComponent.getChildren().add(LineComponent.builder()
 					.left("Entry fee:")
 					.right(paid ? "Paid" : "Not Paid")
@@ -55,6 +58,11 @@ public class BrimhavenAgilityPanelOverlay extends OverlayPanel
 					.left("Cooldown:")
 					.right(cooldownPassed ? "Over" : "Active")
 					.rightColor(cooldownPassed ? Color.GREEN : Color.RED)
+					.build());
+				panelComponent.getChildren().add(LineComponent.builder()
+					.left("Follower:")
+					.right(hasNoFollower ? "No" : "Yes")
+					.rightColor(hasNoFollower ? Color.GREEN : Color.RED)
 					.build());
 			}
 			// if the panel is showing for any reason & the glove warning is enabled, add the glove info to it

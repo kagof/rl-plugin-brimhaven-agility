@@ -27,7 +27,7 @@ dependencies {
 }
 
 group = 'com.kagof.runelite.plugins.brimhavenagility'
-version = '1.0.0'
+version = plugin_version
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'

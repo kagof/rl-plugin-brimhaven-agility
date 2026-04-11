@@ -18,7 +18,7 @@ public class BrimhavenAgilityArenaLocation
 	private static final int PLATFORM_HEIGHT = 11;
 	private static final int PLATFORM_START_X = 9;
 	private static final int PLATFORM_START_Y = 10;
-	private static final int PLANE = 3;
+	public static final int PLANE = 3;
 
 	int x;
 	int y;

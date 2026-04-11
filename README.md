@@ -3,6 +3,8 @@
 [![Total Installs](http://img.shields.io/endpoint?url=https://api.runelite.net/pluginhub/shields/installs/plugin/brimhaven-agility)](https://runelite.net/plugin-hub/show/brimhaven-agility)
 [![Plugin Rank](http://img.shields.io/endpoint?url=https://api.runelite.net/pluginhub/shields/rank/plugin/brimhaven-agility)](https://runelite.net/plugin-hub/show/brimhaven-agility)
 [![Build](https://img.shields.io/github/actions/workflow/status/kagof/rl-plugin-brimhaven-agility/build.yml?branch=master)](https://github.com/kagof/rl-plugin-brimhaven-agility)
+![Last Release](https://img.shields.io/github/v/tag/kagof/rl-plugin-brimhaven-agility?label=Last%20Release)
+![Git Version](https://img.shields.io/badge/dynamic/regex?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkagof%2Frl-plugin-brimhaven-agility%2Frefs%2Fheads%2Fmaster%2Fgradle.properties&search=plugin_version%3D(.*)&replace=v%241&label=Git%20Version)
 
 This is a [RuneLite](https://runelite.net/) plugin to help with the Brimhaven Agility Arena
 in [OSRS](https://oldschool.runescape.com/).
@@ -18,8 +20,8 @@ agility level. The path is found using the A* pathfinding algorithm.
 
 ### Entry panel
 
-A panel that appears when near the entry of the agility arena, indicating whether the exit cooldown period has elapsed
-and whether the entry fee has been paid.
+A panel that appears when near the entry of the agility arena, indicating whether the exit cooldown period has elapsed,
+whether the entry fee has been paid, and whether the user has a follower.
 
 ![](images/entry.png)
 
@@ -31,6 +33,14 @@ but your character is not wearing the Karamja Gloves 2, 3, or 4. Only appears wh
 When worn, the Karamja Gloves 2, 3, and 4 all grant 10% extra agility experience from obstacles and cashing in tickets.
 
 ![](images/gloves.png)
+
+### Plank obstacle solver
+
+Highlights the correct plank of the three planks obstacle to use.
+
+![](images/plankmenu.png)
+
+![](images/planks.png)
 
 ## Configuration
 
@@ -45,8 +55,36 @@ example, avoid the darts obstacle which lowers your agility level by 2 when fail
 
 These are potential ideas for future expansions of this plugin.
 
-* removing the hint arrow once the ticket has been claimed
-* highlighting the correct plank to use on the 3 plank obstacle
+* removing the hint arrow once the ticket has been claimed. A branch exists for
+  this [here](https://github.com/kagof/rl-plugin-brimhaven-agility/compare/remove-hint), but it breaks some of the core
+  Agility plugin's functionality, therefore [this PR](https://github.com/runelite/runelite/pull/19407) needs to be
+  accepted into Runelite before this feature can be added
+
+## Rejected features
+
+* Menu deprioritization for incorrect planks in the 3 planks obstacle
+    * Although this does not explicitly violate any 3rd party guidelines from
+      Jagex, [this has been requested not to be added by RuneLite](https://github.com/runelite/plugin-hub/pull/10720#issuecomment-3952508453)
+
+## Changelog
+
+### [Unreleased]()
+
+* new configurable feature - highlight 3 plank menu options
+
+### [1.2.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.2.0)
+
+* new configurable feature - highlighting for the 3 planks obstacle
+* adds follower check to entry panel
+
+### [1.1.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.1.0)
+
+* new configurable feature - entry panel
+* new configurable feature - Karamja gloves warning
+
+### [1.0.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.0.0)
+
+* computes & displays shortest path to active dispenser, with configurable options
 
 ## Acknowledgements
 
