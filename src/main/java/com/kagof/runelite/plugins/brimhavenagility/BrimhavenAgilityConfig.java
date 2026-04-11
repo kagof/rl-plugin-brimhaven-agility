@@ -206,12 +206,22 @@ public interface BrimhavenAgilityConfig extends Config
 		return false;
 	}
 
+	@ConfigItem(keyName = "highlightplankmenuoptions",
+		name = "Highlight plank menu options",
+		description = "Whether to highlight the plank menu options",
+		section = planks,
+		position = 2)
+	default boolean highlightPlankMenuOptions()
+	{
+		return true;
+	}
+
 	@Alpha
 	@ConfigItem(keyName = "correctplankcolour",
 		name = "Correct plank colour",
 		description = "The colour used to highlight the correct plank",
 		section = planks,
-		position = 2)
+		position = 3)
 	default Color correctPlankColour()
 	{
 		return Color.GREEN;
@@ -222,7 +232,7 @@ public interface BrimhavenAgilityConfig extends Config
 		name = "Incorrect plank colour",
 		description = "The colour used to highlight the incorrect plank",
 		section = planks,
-		position = 3)
+		position = 4)
 	default Color incorrectPlankColour()
 	{
 		return Color.RED;

@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.GroundObject;
 import net.runelite.api.coords.WorldArea;
+import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.gameval.ObjectID;
 
 @Slf4j
@@ -86,6 +87,30 @@ public class BrimhavenAgilityPlankManager
 	public boolean remove(final GroundObject groundObject)
 	{
 		return updateVal(groundObject, null);
+	}
+
+	public boolean isOnBadPlank(final WorldPoint point)
+	{
+		if (point.isInArea(PLANKS1_AREA))
+		{
+			if (planks1Choice == BrimhavenAgilityPlankChoice.UNKNOWN)
+			{
+				return false;
+			}
+			return point.getY() - PLANKS1_AREA.getY() != planks1Choice.ordinal();
+		}
+		else if (point.isInArea(PLANKS2_AREA))
+		{
+			if (planks2Choice == BrimhavenAgilityPlankChoice.UNKNOWN)
+			{
+				return false;
+			}
+			return point.getY() - PLANKS2_AREA.getY() != planks2Choice.ordinal();
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	private BrimhavenAgilityPlankChoice findCorrectPlank(final GroundObject[][] planks)

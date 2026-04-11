@@ -38,6 +38,8 @@ When worn, the Karamja Gloves 2, 3, and 4 all grant 10% extra agility experience
 
 Highlights the correct plank of the three planks obstacle to use.
 
+![](images/plankmenu.png)
+
 ![](images/planks.png)
 
 ## Configuration
@@ -65,6 +67,10 @@ These are potential ideas for future expansions of this plugin.
       Jagex, [this has been requested not to be added by RuneLite](https://github.com/runelite/plugin-hub/pull/10720#issuecomment-3952508453)
 
 ## Changelog
+
+### [Unreleased]()
+
+* new configurable feature - highlight 3 plank menu options
 
 ### [1.2.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.2.0)
 
