@@ -71,7 +71,7 @@ These are potential ideas for future expansions of this plugin.
 
 ## Changelog
 
-### [Unreleased]()
+### [1.3.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.3.0)
 
 * new configurable feature - highlight 3 plank menu options
 * new configurable feature - adjust path to account for the correct plank to use
