@@ -155,10 +155,6 @@ public class BrimhavenAgilityPlugin extends Plugin
 				break;
 			case TICKET_AVAILABLE_VARBIT:
 				ticketAvailable = event.getValue() > 0;
-				if (isInAgilityArena() && !ticketAvailable && config.removeArrowWhenClaimed() && client.hasHintArrow())
-				{
-					client.clearHintArrow();
-				}
 				break;
 			case KARAMJA_EASY_VARBIT:
 				easyTasksCompleted = event.getValue();

@@ -48,19 +48,10 @@ public interface BrimhavenAgilityConfig extends Config
 		return new Color(255, 255, 255, 191);
 	}
 
-	@ConfigItem(keyName = "removearrowwhenclaimed",
-		name = "Remove arrow when claimed",
-		description = "Whether to remove the hint arrow when you have already obtained the ticket from this dispenser",
-		position = 4)
-	default boolean removeArrowWhenClaimed()
-	{
-		return true;
-	}
-
 	@ConfigSection(
 		name = "Obstacles to avoid",
 		description = "Configuration of obstacles to avoid when computing the path to the active dispenser",
-		position = 5)
+		position = 4)
 	String obstaclesAvoid = "obstaclesavoid";
 
 	@ConfigItem(keyName = "bladeavoid",
@@ -192,7 +183,7 @@ public interface BrimhavenAgilityConfig extends Config
 	@ConfigSection(
 		name = "Planks",
 		description = "Configuration of the three planks obstacle",
-		position = 6)
+		position = 5)
 	String planks = "planks";
 
 	@ConfigItem(keyName = "highlightcorrectplank",
