@@ -55,21 +55,23 @@ example, avoid the darts obstacle which lowers your agility level by 2 when fail
 
 These are potential ideas for future expansions of this plugin.
 
-* removing the hint arrow once the ticket has been claimed. A branch exists for
-  this [here](https://github.com/kagof/rl-plugin-brimhaven-agility/compare/remove-hint), but it breaks some of the core
-  Agility plugin's functionality, therefore [this PR](https://github.com/runelite/runelite/pull/19407) needs to be
-  accepted into Runelite before this feature can be added
 * [#5](https://github.com/kagof/rl-plugin-brimhaven-agility/issues/5) Configurable notification when the new active
   dispenser moves to within `n` platforms of the player, for people AFKing
   the floor spikes.
 
 ## Rejected features
 
+These are features that explicitly will not be added to this plugin.
+
 * Menu deprioritization for incorrect planks in the 3 planks obstacle
     * Although this does not explicitly violate any 3rd party guidelines from
       Jagex, [this has been requested not to be added by RuneLite](https://github.com/runelite/plugin-hub/pull/10720#issuecomment-3952508453)
 
 ## Changelog
+
+### Unreleased
+
+* new configurable feature - removing the hint arrow once the ticket has been claimed
 
 ### [1.3.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.3.0)
 

@@ -3,6 +3,8 @@ plugins {
 }
 
 repositories {
+    // temporarily comment `mavenLocal()` out once when building if you get a "Could not find lwjgl" error,
+    // https://github.com/libgdx/libgdx/issues/6878
     mavenLocal()
     maven {
         url = 'https://repo.runelite.net'
