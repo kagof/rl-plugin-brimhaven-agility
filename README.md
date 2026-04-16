@@ -69,7 +69,7 @@ These are features that explicitly will not be added to this plugin.
 
 ## Changelog
 
-### Unreleased
+### [1.4.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.4.0)
 
 * new configurable feature - removing the hint arrow once the ticket has been claimed
 
