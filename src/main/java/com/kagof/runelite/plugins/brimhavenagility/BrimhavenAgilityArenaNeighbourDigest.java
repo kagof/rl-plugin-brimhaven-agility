@@ -83,9 +83,8 @@ public final class BrimhavenAgilityArenaNeighbourDigest
 							char obs = line.charAt(2);
 							int dstx = Integer.parseInt(line.substring(3, 4));
 							int dsty = Integer.parseInt(line.substring(4, 5));
-							neighbours.merge(BrimhavenAgilityArenaLocation.of(srcx, srcy),
-								List.of(BrimhavenAgilityArenaNeighbour.of(dstx, dsty, BrimhavenAgilityArenaObstacle.from(obs))),
-								(l1, l2) -> Stream.concat(l1.stream(), l2.stream()).collect(Collectors.toUnmodifiableList()));
+							addNeighbourDigestEntry(srcx, srcy, dstx, dsty, obs);
+							addNeighbourDigestEntry(dstx, dsty, srcx, srcy, obs);
 						}
 						catch (Exception e)
 						{
@@ -100,6 +99,15 @@ public final class BrimhavenAgilityArenaNeighbourDigest
 		{
 			log.error("failed to load Brimhaven agility arena layout file", e);
 		}
+	}
+
+	private static void addNeighbourDigestEntry(int srcx, int srcy, int dstx, int dsty, char obs)
+	{
+		neighbours.merge(BrimhavenAgilityArenaLocation.of(srcx, srcy),
+			List.of(BrimhavenAgilityArenaNeighbour.of(dstx, dsty, BrimhavenAgilityArenaObstacle.from(obs))),
+			(l1, l2) -> Stream.concat(l1.stream(), l2.stream())
+				.sorted()
+				.collect(Collectors.toUnmodifiableList()));
 	}
 
 	public synchronized static void unload()

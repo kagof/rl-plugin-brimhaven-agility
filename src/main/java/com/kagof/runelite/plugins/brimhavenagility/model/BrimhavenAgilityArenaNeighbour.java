@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @ToString
-public class BrimhavenAgilityArenaNeighbour
+public class BrimhavenAgilityArenaNeighbour implements Comparable<BrimhavenAgilityArenaNeighbour>
 {
 	BrimhavenAgilityArenaLocation location;
 	BrimhavenAgilityArenaObstacle obstacle;
@@ -13,5 +13,11 @@ public class BrimhavenAgilityArenaNeighbour
 	public static BrimhavenAgilityArenaNeighbour of(int x, int y, BrimhavenAgilityArenaObstacle obstacle)
 	{
 		return new BrimhavenAgilityArenaNeighbour(BrimhavenAgilityArenaLocation.of(x, y), obstacle);
+	}
+
+	@Override
+	public int compareTo(BrimhavenAgilityArenaNeighbour o)
+	{
+		return this.getLocation().compareTo(o.getLocation());
 	}
 }

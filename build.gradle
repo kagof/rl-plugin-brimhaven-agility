@@ -3,8 +3,6 @@ plugins {
 }
 
 repositories {
-    // temporarily comment `mavenLocal()` out once when building if you get a "Could not find lwjgl" error,
-    // https://github.com/libgdx/libgdx/issues/6878
     mavenLocal()
     maven {
         url = 'https://repo.runelite.net'
@@ -22,6 +20,7 @@ java {
 }
 
 def runeLiteVersion = 'latest.release'
+def pluginMainClass = 'com.kagof.runelite.plugins.brimhavenagility.BrimhavenAgilityPluginTest'
 
 dependencies {
     compileOnly group: 'net.runelite', name: 'client', version: runeLiteVersion
@@ -43,6 +42,15 @@ tasks.withType(JavaCompile).configureEach {
     sourceCompatibility = 11
     targetCompatibility = 11
 }
+
+tasks.register('run', JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = pluginMainClass
+
+    jvmArgs "-ea", "-Dlogback.configurationFile=logback-brim-agility-test.xml"
+    args "--developer-mode", "--debug"
+}
+
 
 tasks.register('shadowJar', Jar) {
     dependsOn configurations.testRuntimeClasspath

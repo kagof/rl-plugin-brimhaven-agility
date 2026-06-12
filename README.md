@@ -69,6 +69,11 @@ These are features that explicitly will not be added to this plugin.
 
 ## Changelog
 
+### [1.4.1](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.4.1)
+
+* removes unnecessary path recalculations when ticket not available & on agility XP drops
+* internal improvements to logging, layout storage
+
 ### [1.4.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.4.0)
 
 * new configurable feature - removing the hint arrow once the ticket has been claimed

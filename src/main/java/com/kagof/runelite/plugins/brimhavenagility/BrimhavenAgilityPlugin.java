@@ -227,7 +227,8 @@ public class BrimhavenAgilityPlugin extends Plugin
 	private void recomputePathIfNeeded()
 	{
 		boolean changed = false;
-		if (isInAgilityArena() && ticketAvailable)
+		boolean inAgilityArena = isInAgilityArena();
+		if (inAgilityArena && ticketAvailable)
 		{
 			WorldPoint ticketPosition = client.getHintArrowPoint();
 			WorldPoint playerLocation = client.getLocalPlayer().getWorldLocation();
@@ -235,21 +236,27 @@ public class BrimhavenAgilityPlugin extends Plugin
 			{
 				if (currentPath.hasPathChanged(playerLocation, ticketPosition))
 				{
+					log.debug("current path changed, calculating subpath if possible");
 					// see if we can use a sub-path
 					currentPath = currentPath.subPath(playerLocation, ticketPosition);
+					log.debug("subpath calculated as {}", currentPath);
 					changed = true;
 				}
 			}
 			if (currentPath == null)
 			{
+				log.debug("current path null, calculating new path");
 				currentPath = BrimhavenAgilityPathFinder.findPath(playerLocation, ticketPosition, agilityLevel, config);
 				changed = true;
 			}
 		}
-		else if (currentPath != null)
+		else if (currentPath != null) // not in the arena or ticket not available & current path is non-null
 		{
 			currentPath = null;
-			ticketAvailable = true;
+			if (!inAgilityArena)
+			{
+				ticketAvailable = true;
+			}
 			changed = true;
 		}
 		if (changed)
@@ -271,7 +278,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 	@Subscribe
 	public void onStatChanged(final StatChanged statChanged)
 	{
-		if (statChanged.getSkill() == Skill.AGILITY)
+		if (statChanged.getSkill() == Skill.AGILITY && agilityLevel != statChanged.getBoostedLevel())
 		{
 			agilityLevel = statChanged.getBoostedLevel();
 			currentPath = null;

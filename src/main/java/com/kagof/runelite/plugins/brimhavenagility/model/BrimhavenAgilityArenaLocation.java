@@ -1,5 +1,6 @@
 package com.kagof.runelite.plugins.brimhavenagility.model;
 
+import com.google.common.collect.ComparisonChain;
 import com.kagof.runelite.plugins.brimhavenagility.BrimhavenAgilityPlugin;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
@@ -11,7 +12,7 @@ import net.runelite.api.coords.WorldPoint;
  */
 @Value
 @EqualsAndHashCode
-public class BrimhavenAgilityArenaLocation
+public class BrimhavenAgilityArenaLocation implements Comparable<BrimhavenAgilityArenaLocation>
 {
 	private static final int PLATFORM_CENTER_OFFSET = 5;
 	private static final int PLATFORM_WIDTH = 11;
@@ -66,5 +67,11 @@ public class BrimhavenAgilityArenaLocation
 	public String toString()
 	{
 		return "(" + x + ", " + y + ")";
+	}
+
+	@Override
+	public int compareTo(BrimhavenAgilityArenaLocation o)
+	{
+		return ComparisonChain.start().compare(this.x, o.x).compare(this.y, o.y).result();
 	}
 }
