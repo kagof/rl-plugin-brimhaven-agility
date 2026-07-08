@@ -18,6 +18,12 @@ agility level. The path is found using the A* pathfinding algorithm.
 
 ![](images/example.png)
 
+### Nearby dispenser alerts
+
+Sends a notification when the active ticket dispenser is within a configurable number of platform hops along the
+recommended path. A distance of zero means the player's current platform. The optional panel display shows the current
+distance, and the calculation does not depend on where the camera is pointed.
+
 ### Entry panel
 
 A panel that appears when near the entry of the agility arena, indicating whether the exit cooldown period has elapsed,
@@ -54,10 +60,6 @@ example, avoid the darts obstacle which lowers your agility level by 2 when fail
 ## Possible future features
 
 These are potential ideas for future expansions of this plugin.
-
-* [#5](https://github.com/kagof/rl-plugin-brimhaven-agility/issues/5) Configurable notification when the new active
-  dispenser moves to within `n` platforms of the player, for people AFKing
-  the floor spikes.
 
 ## Rejected features
 
