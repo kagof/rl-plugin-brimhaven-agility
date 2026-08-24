@@ -26,7 +26,6 @@ import net.runelite.api.gameval.ItemID;
 import net.runelite.api.gameval.VarPlayerID;
 import net.runelite.api.gameval.VarbitID;
 import net.runelite.api.kit.KitType;
-import net.runelite.client.Notifier;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -73,9 +72,6 @@ public class BrimhavenAgilityPlugin extends Plugin
 	private OverlayManager overlayManager;
 
 	@Inject
-	private Notifier notifier;
-
-	@Inject
 	private BrimhavenAgilityOverlay overlay;
 
 	@Inject
@@ -91,6 +87,9 @@ public class BrimhavenAgilityPlugin extends Plugin
 	@Getter
 	private BrimhavenAgilityPlankManager plankManager;
 
+	@Inject
+	private BrimhavenAgilityNotifier notifier;
+
 	@Getter
 	private volatile int agilityLevel;
 	@Getter
@@ -105,11 +104,6 @@ public class BrimhavenAgilityPlugin extends Plugin
 	private volatile int mediumTasksCompleted;
 	@Getter
 	private volatile boolean hasNoFollower;
-	@Getter
-	private volatile int dispenserDistance = -1;
-	private volatile boolean dispenserDistanceAlertActive;
-	private volatile WorldPoint lastAlertedDispenserLocation;
-	private volatile boolean suppressNextDistanceNotification;
 
 	@Override
 	protected void startUp() throws Exception
@@ -117,10 +111,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 		overlayManager.add(overlay);
 		overlayManager.add(panelOverlay);
 		overlayManager.add(plankOverlay);
-		dispenserDistanceAlertActive = false;
-		dispenserDistance = -1;
-		lastAlertedDispenserLocation = null;
-		suppressNextDistanceNotification = false;
+		notifier.clear();
 		agilityLevel = client.getBoostedSkillLevel(Skill.AGILITY);
 		currentPath = null;
 		clientThread.invokeLater(() -> {
@@ -141,16 +132,13 @@ public class BrimhavenAgilityPlugin extends Plugin
 		overlayManager.remove(plankOverlay);
 		BrimhavenAgilityArenaNeighbourDigest.unload();
 		plankManager.clear();
+		notifier.clear();
 		agilityLevel = 0;
 		currentPath = null;
 		ticketAvailable = true;
 		easyTasksCompleted = 0;
 		mediumTasksCompleted = 0;
 		hasNoFollower = true;
-		dispenserDistanceAlertActive = false;
-		dispenserDistance = -1;
-		lastAlertedDispenserLocation = null;
-		suppressNextDistanceNotification = false;
 	}
 
 	@Subscribe
@@ -229,8 +217,11 @@ public class BrimhavenAgilityPlugin extends Plugin
 	private void recompute()
 	{
 		recomputePlanksIfNeeded();
-		recomputePathIfNeeded();
-		suppressNextDistanceNotification = false;
+		boolean pathChanged = recomputePathIfNeeded();
+		if (pathChanged)
+		{
+			notifier.maybeNotifyDispenserDistance(currentPath, config);
+		}
 	}
 
 	private void recomputePlanksIfNeeded()
@@ -242,15 +233,10 @@ public class BrimhavenAgilityPlugin extends Plugin
 		}
 	}
 
-	private void recomputePathIfNeeded()
+	private boolean recomputePathIfNeeded()
 	{
 		boolean changed = false;
 		boolean inAgilityArena = isInAgilityArena();
-		if (!inAgilityArena || !ticketAvailable)
-		{
-			dispenserDistanceAlertActive = false;
-			dispenserDistance = -1;
-		}
 		if (inAgilityArena && ticketAvailable)
 		{
 			WorldPoint ticketPosition = client.getHintArrowPoint();
@@ -272,8 +258,6 @@ public class BrimhavenAgilityPlugin extends Plugin
 				currentPath = BrimhavenAgilityPathFinder.findPath(playerLocation, ticketPosition, agilityLevel, config);
 				changed = true;
 			}
-			dispenserDistance = currentPath == null ? -1 : currentPath.distance();
-			maybeSendDispenserDistanceNotification(ticketPosition);
 		}
 		else if (currentPath != null) // not in the arena or ticket not available & current path is non-null
 		{
@@ -288,23 +272,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 		{
 			log.debug("New Brimhaven Agility Arena path: {}", currentPath);
 		}
-	}
-
-	private void maybeSendDispenserDistanceNotification(final WorldPoint ticketPosition)
-	{
-		boolean withinDistance = dispenserDistance >= 0
-			&& dispenserDistance <= config.dispenserNotificationDistance();
-		if (!suppressNextDistanceNotification && withinDistance && (!dispenserDistanceAlertActive
-			|| !ticketPosition.equals(lastAlertedDispenserLocation)))
-		{
-			String distanceMessage = dispenserDistance == 0
-				? "on your platform"
-				: dispenserDistance + (dispenserDistance == 1 ? " platform hop" : " platform hops") + " away";
-			notifier.notify(config.dispenserDistanceNotification(),
-				"Brimhaven Agility: active ticket dispenser is " + distanceMessage);
-			lastAlertedDispenserLocation = ticketPosition;
-		}
-		dispenserDistanceAlertActive = withinDistance;
+		return changed;
 	}
 
 	@Subscribe
@@ -313,7 +281,6 @@ public class BrimhavenAgilityPlugin extends Plugin
 		if (configChanged.getGroup().equals("brimhavenagility"))
 		{
 			currentPath = null;
-			suppressNextDistanceNotification = true;
 			clientThread.invokeLater(this::recompute);
 		}
 	}

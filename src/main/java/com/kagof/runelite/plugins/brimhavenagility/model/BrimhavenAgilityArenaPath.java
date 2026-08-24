@@ -23,6 +23,11 @@ public class BrimhavenAgilityArenaPath
 		return locations.size() - 1;
 	}
 
+	public BrimhavenAgilityArenaLocation end()
+	{
+		return locations.get(locations.size() - 1);
+	}
+
 	public boolean hasPathChanged(final WorldPoint playerLocation, final WorldPoint dispenserLocation)
 	{
 		if (locations.isEmpty())

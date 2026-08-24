@@ -31,10 +31,19 @@ public interface BrimhavenAgilityConfig extends Config
 		return true;
 	}
 
+	@ConfigItem(keyName = "showdispenserdistance",
+		name = "Show dispenser distance",
+		description = "Show the current recommended-path distance to the active dispenser",
+		position = 2)
+	default boolean showDispenserDistance()
+	{
+		return false;
+	}
+
 	@ConfigItem(keyName = "drawpath",
 		name = "Draw path",
 		description = "Whether or not to draw the shortest path to the currently active dispenser",
-		position = 2)
+		position = 3)
 	default boolean drawPath()
 	{
 		return true;
@@ -44,7 +53,7 @@ public interface BrimhavenAgilityConfig extends Config
 	@ConfigItem(keyName = "pathcolour",
 		name = "Path colour",
 		description = "The colour used to draw the path to the currently active dispenser",
-		position = 3)
+		position = 4)
 	default Color pathColour()
 	{
 		return new Color(255, 255, 255, 191);
@@ -53,7 +62,7 @@ public interface BrimhavenAgilityConfig extends Config
 	@ConfigItem(keyName = "removearrowwhenclaimed",
 		name = "Remove arrow when claimed",
 		description = "Whether to remove the hint arrow when you have already obtained the ticket from this dispenser",
-		position = 4)
+		position = 5)
 	default boolean removeArrowWhenClaimed()
 	{
 		return true;
@@ -62,7 +71,7 @@ public interface BrimhavenAgilityConfig extends Config
 	@ConfigSection(
 		name = "Obstacles to avoid",
 		description = "Configuration of obstacles to avoid when computing the path to the active dispenser",
-		position = 5)
+		position = 6)
 	String obstaclesAvoid = "obstaclesavoid";
 
 	@ConfigItem(keyName = "bladeavoid",
@@ -194,14 +203,8 @@ public interface BrimhavenAgilityConfig extends Config
 	@ConfigSection(
 		name = "Planks",
 		description = "Configuration of the three planks obstacle",
-		position = 6)
-	String planks = "planks";
-
-	@ConfigSection(
-		name = "Notifications",
-		description = "Configuration of proximity notifications",
 		position = 7)
-	String notifications = "notifications";
+	String planks = "planks";
 
 	@ConfigItem(keyName = "highlightcorrectplank",
 		name = "Highlight correct plank",
@@ -243,40 +246,6 @@ public interface BrimhavenAgilityConfig extends Config
 		return true;
 	}
 
-	@ConfigItem(keyName = "dispenserDistanceNotification",
-		name = "Nearby dispenser",
-		description = "Whether to notify when the active ticket dispenser is within the configured path distance",
-		section = notifications,
-		position = 0)
-	default Notification dispenserDistanceNotification()
-	{
-		return Notification.ON;
-	}
-
-	@Range(
-		min = 0,
-		max = 24
-	)
-	@ConfigItem(keyName = "dispenserNotificationDistance",
-		name = "Maximum path distance",
-		description = "Notify when the active dispenser is this many platform hops away or closer",
-		section = notifications,
-		position = 1)
-	default int dispenserNotificationDistance()
-	{
-		return 0;
-	}
-
-	@ConfigItem(keyName = "showDispenserDistance",
-		name = "Show path distance",
-		description = "Show the current recommended-path distance to the active dispenser",
-		section = notifications,
-		position = 2)
-	default boolean showDispenserDistance()
-	{
-		return true;
-	}
-
 	@Alpha
 	@ConfigItem(keyName = "correctplankcolour",
 		name = "Correct plank colour",
@@ -297,5 +266,35 @@ public interface BrimhavenAgilityConfig extends Config
 	default Color incorrectPlankColour()
 	{
 		return Color.RED;
+	}
+
+	@ConfigSection(
+		name = "Notifications",
+		description = "Configuration of proximity notifications",
+		position = 8)
+	String notifications = "notifications";
+
+	@ConfigItem(keyName = "nearbydispensernotification",
+		name = "Nearby dispenser notifier",
+		description = "Whether to notify when the active ticket dispenser is within the configured path distance. Note with this enabled you likely will want to disable the \"Agility Arena notifier\" in the bundled Agility plugin",
+		section = notifications,
+		position = 0)
+	default Notification nearbyDispenserNotification()
+	{
+		return Notification.OFF;
+	}
+
+	@Range(
+		min = 0,
+		max = 24
+	)
+	@ConfigItem(keyName = "nearbydispenserdistnace",
+		name = "Nearby dispenser distance",
+		description = "If the nearby dispenser notifier is enabled, the number of platform hops away considered nearby",
+		section = notifications,
+		position = 1)
+	default int nearbyDispenserDistance()
+	{
+		return 1;
 	}
 }

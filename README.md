@@ -21,8 +21,8 @@ agility level. The path is found using the A* pathfinding algorithm.
 ### Nearby dispenser alerts
 
 Sends a notification when the active ticket dispenser is within a configurable number of platform hops along the
-recommended path. A distance of zero means the player's current platform. The optional panel display shows the current
-distance, and the calculation does not depend on where the camera is pointed.
+recommended path. A distance of zero means the player's current platform. An optional panel display shows the current
+distance. This feature is intended for people AFKing on a single obstacle.
 
 ### Entry panel
 
@@ -70,6 +70,11 @@ These are features that explicitly will not be added to this plugin.
       Jagex, [this has been requested not to be added by RuneLite](https://github.com/runelite/plugin-hub/pull/10720#issuecomment-3952508453)
 
 ## Changelog
+
+### Unreleased
+
+* New configurable feature - notification when the active ticket dispenser moves to within a configurable number of
+  platforms from the player
 
 ### [1.4.1](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.4.1)
 
