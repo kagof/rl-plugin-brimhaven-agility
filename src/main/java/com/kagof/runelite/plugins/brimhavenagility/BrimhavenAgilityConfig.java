@@ -6,6 +6,8 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.ConfigSection;
+import net.runelite.client.config.Notification;
+import net.runelite.client.config.Range;
 
 @ConfigGroup("brimhavenagility")
 public interface BrimhavenAgilityConfig extends Config
@@ -195,6 +197,12 @@ public interface BrimhavenAgilityConfig extends Config
 		position = 6)
 	String planks = "planks";
 
+	@ConfigSection(
+		name = "Notifications",
+		description = "Configuration of proximity notifications",
+		position = 7)
+	String notifications = "notifications";
+
 	@ConfigItem(keyName = "highlightcorrectplank",
 		name = "Highlight correct plank",
 		description = "Whether or not to highlight the correct plank of the three plank obstacle",
@@ -231,6 +239,40 @@ public interface BrimhavenAgilityConfig extends Config
 		section = planks,
 		position = 3)
 	default boolean adjustPathForPlanks()
+	{
+		return true;
+	}
+
+	@ConfigItem(keyName = "dispenserDistanceNotification",
+		name = "Nearby dispenser",
+		description = "Whether to notify when the active ticket dispenser is within the configured path distance",
+		section = notifications,
+		position = 0)
+	default Notification dispenserDistanceNotification()
+	{
+		return Notification.ON;
+	}
+
+	@Range(
+		min = 0,
+		max = 24
+	)
+	@ConfigItem(keyName = "dispenserNotificationDistance",
+		name = "Maximum path distance",
+		description = "Notify when the active dispenser is this many platform hops away or closer",
+		section = notifications,
+		position = 1)
+	default int dispenserNotificationDistance()
+	{
+		return 0;
+	}
+
+	@ConfigItem(keyName = "showDispenserDistance",
+		name = "Show path distance",
+		description = "Show the current recommended-path distance to the active dispenser",
+		section = notifications,
+		position = 2)
+	default boolean showDispenserDistance()
 	{
 		return true;
 	}
