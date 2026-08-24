@@ -61,6 +61,8 @@ example, avoid the darts obstacle which lowers your agility level by 2 when fail
 
 These are potential ideas for future expansions of this plugin.
 
+(_none currently tracked_)
+
 ## Rejected features
 
 These are features that explicitly will not be added to this plugin.
@@ -71,7 +73,7 @@ These are features that explicitly will not be added to this plugin.
 
 ## Changelog
 
-### Unreleased
+### [1.5.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.5.0)
 
 * New configurable feature - notification when the active ticket dispenser moves to within a configurable number of
   platforms from the player
