@@ -15,6 +15,16 @@ jobs:
       - name: Checkout the branch
         uses: actions/checkout@v2
 
+      - name: Verify version numbers match
+        run: |
+          runelite_plugin_properties_version=$(cat runelite-plugin.properties | sed -n 's/version=//p')
+          gradle_properties_plugin_version=$(cat gradle.properties | sed -n 's/plugin_version=//p')
+          [ "$runelite_plugin_properties_version" = "$gradle_properties_plugin_version" ] \
+            && echo "version numbers matched on $runelite_plugin_properties_version" \
+            || (echo "::error file=runelite-plugin.properties,line=7::\
+          plugin version mismatched (gradle.properties version: $gradle_properties_plugin_version, runelite-plugin.properties version: $runelite_plugin_properties_version)" \
+              && exit 1)
+
       - name: Set up OpenJDK 11
         uses: actions/setup-java@v4
         with:
@@ -38,4 +48,4 @@ jobs:
 
       - name: Gradle test
         run: |
-          ./gradlew test --console=plain
+          ./gradlew clean test --console=plain
