@@ -10,7 +10,18 @@ scriptdir=$(dirname "$(readlink -f "$0")")
 
 cd $scriptdir
 hash=$(git rev-parse --verify HEAD)
-version=$(cat gradle.properties | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+version=$(cat gradle.properties | sed -n 's/plugin_version=//p')
+rlp_version=$(cat runelite-plugin.properties | sed -n 's/version=//p')
+if [ "$version" != "$rlp_version" ]; then
+  echo -e "\033[31mWARNING: gradle.properties version ($version) does not match runelite-plugin.properties version ($rlp_version)\033[0m"
+  read -p "Abort? (Y/n): " abort
+  if [[ $abort =~ ^([Yy]([Ee][Ss])?)?$ ]]; then
+      cd "$currentdir"
+      exit 1
+  else
+    echo "Continuing with mismatched versions"
+  fi
+fi
 echo "using commit hash $hash for version $version of $pluginname"
 read -p "Is this correct? (Y/n): " confirm
 if [[ ! $confirm =~ ^([Yy]([Ee][Ss])?)?$ ]]; then
