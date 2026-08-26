@@ -6,6 +6,7 @@ import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityOverl
 import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityPanelOverlay;
 import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityPlankOverlay;
 import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityShopOverlay;
+import java.awt.Color;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
@@ -235,18 +236,34 @@ public class BrimhavenAgilityPlugin extends Plugin
 	}
 
 	@Subscribe
-	public void onMenuEntryAdded(MenuEntryAdded event)
+	public void onMenuEntryAdded(final MenuEntryAdded event)
 	{
-		if (!config.highlightPlankMenuOptions())
+		if (config.highlightPlankMenuOptions() && isInAgilityArena())
 		{
-			return;
+			if (MenuAction.of(event.getType()) == MenuAction.GAME_OBJECT_FIRST_OPTION
+				&& event.getOption().equals("Walk-on")
+				&& event.getTarget().contains("Plank"))
+			{
+				recolourPlankMenuOption(event);
+			}
 		}
-		if (MenuAction.of(event.getType()) == MenuAction.GAME_OBJECT_FIRST_OPTION
-			&& event.getOption().equals("Walk-on")
-			&& event.getTarget().contains("Plank"))
+
+		if (config.showGloveWarning() && shopOpen && !isWearingKaramjaGloves234())
 		{
-			recolourPlankMenuOption(event);
+			if (BrimhavenAgilityShopHandler.isAgilityXPBuyButtonMenuOption(event, client))
+			{
+				event.getMenuEntry().setType(MenuAction.CC_OP_LOW_PRIORITY);
+				event.getMenuEntry().setDeprioritized(true);
+				event.getMenuEntry().setOption(ColorUtil.wrapWithColorTag(event.getMenuEntry().getOption(), Color.RED));
+			}
+			else if (BrimhavenAgilityShopHandler.isAgilityXPListBuyOrSelectMenuOption(event))
+			{
+				event.getMenuEntry().setType(MenuAction.CC_OP_LOW_PRIORITY);
+				event.getMenuEntry().setDeprioritized(true);
+				event.getMenuEntry().setTarget(ColorUtil.wrapWithColorTag("Agility XP", Color.RED));
+			}
 		}
+
 	}
 
 	private void recompute()

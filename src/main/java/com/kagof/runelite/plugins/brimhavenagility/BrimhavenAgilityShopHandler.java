@@ -1,6 +1,8 @@
 package com.kagof.runelite.plugins.brimhavenagility;
 
 import java.awt.Rectangle;
+import net.runelite.api.Client;
+import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.widgets.Widget;
 
@@ -11,8 +13,29 @@ public class BrimhavenAgilityShopHandler
 	public static final int INFO_ID = InterfaceID.OmnishopMain.INFO;
 	public static final int BUY_BUTTONS_ID = InterfaceID.OmnishopMain.BUTTONS_INFO;
 
-	public static boolean shopNameMatches(Widget frame)
+	public static Widget getFrame(final Client client)
 	{
+		return client.getWidget(FRAME_ID);
+	}
+
+	public static Widget getList(final Client client)
+	{
+		return client.getWidget(LIST_ID);
+	}
+
+	public static Widget getInfo(final Client client)
+	{
+		return client.getWidget(INFO_ID);
+	}
+
+	public static Widget getBuyButtons(final Client client)
+	{
+		return client.getWidget(BUY_BUTTONS_ID);
+	}
+
+	public static boolean shopNameMatches(final Client client)
+	{
+		final Widget frame = getFrame(client);
 		if (frame == null)
 		{
 			return false;
@@ -32,7 +55,7 @@ public class BrimhavenAgilityShopHandler
 		return false;
 	}
 
-	public static boolean isAgilityXPOptionSelected(Widget info)
+	public static boolean isAgilityXPOptionSelected(final Widget info)
 	{
 		if (info == null)
 		{
@@ -53,8 +76,10 @@ public class BrimhavenAgilityShopHandler
 		return false;
 	}
 
-	public static Rectangle agilityXPBuyButtonBounds(Widget info, Widget buyButtons)
+	public static Rectangle agilityXPBuyButtonBounds(final Client client)
 	{
+		final Widget info = getInfo(client);
+		final Widget buyButtons = getBuyButtons(client);
 		if (info == null || buyButtons == null)
 		{
 			return null;
@@ -71,8 +96,9 @@ public class BrimhavenAgilityShopHandler
 		return null;
 	}
 
-	public static Rectangle getAgilityXPListItemBounds(Widget list)
+	public static Rectangle getAgilityXPListItemBounds(final Client client)
 	{
+		final Widget list = getList(client);
 		if (list == null)
 		{
 			return null;
@@ -97,4 +123,16 @@ public class BrimhavenAgilityShopHandler
 		return null;
 	}
 
+	public static boolean isAgilityXPBuyButtonMenuOption(final MenuEntryAdded event, final Client client)
+	{
+		return "".equals(event.getTarget())
+			&& event.getOption().contains("Buy-")
+			&& isAgilityXPOptionSelected(getInfo(client));
+	}
+
+	public static boolean isAgilityXPListBuyOrSelectMenuOption(final MenuEntryAdded event)
+	{
+		return event.getTarget().contains("Agility XP")
+			&& ("Select".equals(event.getOption()) || event.getOption().contains("Buy-"));
+	}
 }

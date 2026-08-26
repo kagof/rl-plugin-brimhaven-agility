@@ -10,7 +10,6 @@ import java.awt.Rectangle;
 import javax.inject.Inject;
 import net.runelite.api.Client;
 import net.runelite.api.Point;
-import net.runelite.api.widgets.Widget;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -38,7 +37,7 @@ public class BrimhavenAgilityShopOverlay extends Overlay
 	}
 
 	@Override
-	public Dimension render(Graphics2D graphics2D)
+	public Dimension render(final Graphics2D graphics2D)
 	{
 		if (!plugin.isShopOpen() || !plugin.isNearAgilityArenaEntrance() || !config.showGloveWarning() || plugin.isWearingKaramjaGloves234())
 		{
@@ -58,22 +57,17 @@ public class BrimhavenAgilityShopOverlay extends Overlay
 
 	private void recomputeShopRects()
 	{
-		final Widget frame = client.getWidget(BrimhavenAgilityShopHandler.FRAME_ID);
-		final Widget list = client.getWidget(BrimhavenAgilityShopHandler.LIST_ID);
-		final Widget info = client.getWidget(BrimhavenAgilityShopHandler.INFO_ID);
-		final Widget buyButtons = client.getWidget(BrimhavenAgilityShopHandler.BUY_BUTTONS_ID);
-
-		if (!BrimhavenAgilityShopHandler.shopNameMatches(frame))
+		if (!BrimhavenAgilityShopHandler.shopNameMatches(client))
 		{
 			listItemBounds = null;
 			buyButtonsBounds = null;
 			return;
 		}
-		listItemBounds = BrimhavenAgilityShopHandler.getAgilityXPListItemBounds(list);
-		buyButtonsBounds = BrimhavenAgilityShopHandler.agilityXPBuyButtonBounds(info, buyButtons);
+		listItemBounds = BrimhavenAgilityShopHandler.getAgilityXPListItemBounds(client);
+		buyButtonsBounds = BrimhavenAgilityShopHandler.agilityXPBuyButtonBounds(client);
 	}
 
-	private void drawWarningIfNonNull(Graphics2D graphics2D, Rectangle rectangle)
+	private void drawWarningIfNonNull(final Graphics2D graphics2D, final Rectangle rectangle)
 	{
 		if (rectangle != null)
 		{
