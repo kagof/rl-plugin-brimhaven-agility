@@ -76,7 +76,7 @@ These are features that explicitly will not be added to this plugin.
 
 ## Changelog
 
-### Unreleased
+### [1.6.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.6.0)
 
 * distance in panel is coloured green when nearby
 * proper version tagging in the plugin properties
