@@ -73,6 +73,11 @@ These are features that explicitly will not be added to this plugin.
 
 ## Changelog
 
+### Unreleased
+
+* distance in panel is coloured green when nearby
+* proper version tagging in the plugin properties
+
 ### [1.5.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.5.0)
 
 * New configurable feature - notification when the active ticket dispenser moves to within a configurable number of

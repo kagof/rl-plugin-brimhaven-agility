@@ -38,6 +38,7 @@ public class BrimhavenAgilityPanelOverlay extends OverlayPanel
 		boolean gloveWarning = config.showGloveWarning() && hasCompletedDiary && !wearingGloves
 			&& (nearAgilityArenaEntrance || inArena);
 		boolean showDispenserDistance = config.showDispenserDistance() && inArena
+			&& plugin.getCurrentPath() != null
 			&& plugin.getCurrentPath().distance() >= 0;
 
 		if (entryPanel || gloveWarning || showDispenserDistance)
@@ -72,6 +73,7 @@ public class BrimhavenAgilityPanelOverlay extends OverlayPanel
 				panelComponent.getChildren().add(LineComponent.builder()
 					.left("Dispenser distance:")
 					.right(Integer.toString(plugin.getCurrentPath().distance()))
+					.rightColor(plugin.getCurrentPath().distance() <= config.nearbyDispenserDistance() ? Color.GREEN : Color.WHITE)
 					.build());
 			}
 			// if the panel is showing for any reason & the glove warning is enabled, add the glove info to it
