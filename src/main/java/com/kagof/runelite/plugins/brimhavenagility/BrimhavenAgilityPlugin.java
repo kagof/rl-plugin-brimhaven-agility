@@ -6,7 +6,6 @@ import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityOverl
 import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityPanelOverlay;
 import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityPlankOverlay;
 import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityShopOverlay;
-import java.awt.Rectangle;
 import javax.inject.Inject;
 import lombok.Getter;
 import lombok.Setter;
@@ -117,12 +116,6 @@ public class BrimhavenAgilityPlugin extends Plugin
 	@Getter
 	@Setter
 	private volatile boolean shopOpen;
-
-	@Getter
-	private volatile Rectangle agilityXPListItemBounds;
-
-	@Getter
-	private volatile Rectangle agilityXPBuyOptionBounds;
 
 	@Override
 	protected void startUp() throws Exception
