@@ -5,8 +5,11 @@ import com.kagof.runelite.plugins.brimhavenagility.model.BrimhavenAgilityArenaPa
 import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityOverlay;
 import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityPanelOverlay;
 import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityPlankOverlay;
+import com.kagof.runelite.plugins.brimhavenagility.overlay.BrimhavenAgilityShopOverlay;
+import java.awt.Rectangle;
 import javax.inject.Inject;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.MenuAction;
@@ -22,6 +25,9 @@ import net.runelite.api.events.GroundObjectSpawned;
 import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.events.StatChanged;
 import net.runelite.api.events.VarbitChanged;
+import net.runelite.api.events.WidgetClosed;
+import net.runelite.api.events.WidgetLoaded;
+import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.gameval.ItemID;
 import net.runelite.api.gameval.VarPlayerID;
 import net.runelite.api.gameval.VarbitID;
@@ -81,6 +87,9 @@ public class BrimhavenAgilityPlugin extends Plugin
 	private BrimhavenAgilityPlankOverlay plankOverlay;
 
 	@Inject
+	private BrimhavenAgilityShopOverlay shopOverlay;
+
+	@Inject
 	private BrimhavenAgilityConfig config;
 
 	@Inject
@@ -105,12 +114,23 @@ public class BrimhavenAgilityPlugin extends Plugin
 	@Getter
 	private volatile boolean hasNoFollower;
 
+	@Getter
+	@Setter
+	private volatile boolean shopOpen;
+
+	@Getter
+	private volatile Rectangle agilityXPListItemBounds;
+
+	@Getter
+	private volatile Rectangle agilityXPBuyOptionBounds;
+
 	@Override
 	protected void startUp() throws Exception
 	{
 		overlayManager.add(overlay);
 		overlayManager.add(panelOverlay);
 		overlayManager.add(plankOverlay);
+		overlayManager.add(shopOverlay);
 		notifier.clear();
 		agilityLevel = client.getBoostedSkillLevel(Skill.AGILITY);
 		currentPath = null;
@@ -122,6 +142,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 			mediumTasksCompleted = client.getVarbitValue(KARAMJA_MEDIUM_VARBIT);
 			hasNoFollower = client.getVarpValue(FOLLOWER_NPC) == -1;
 		});
+		shopOpen = false;
 	}
 
 	@Override
@@ -130,6 +151,7 @@ public class BrimhavenAgilityPlugin extends Plugin
 		overlayManager.remove(overlay);
 		overlayManager.remove(panelOverlay);
 		overlayManager.remove(plankOverlay);
+		overlayManager.remove(shopOverlay);
 		BrimhavenAgilityArenaNeighbourDigest.unload();
 		plankManager.clear();
 		notifier.clear();
@@ -139,6 +161,26 @@ public class BrimhavenAgilityPlugin extends Plugin
 		easyTasksCompleted = 0;
 		mediumTasksCompleted = 0;
 		hasNoFollower = true;
+		shopOpen = false;
+	}
+
+	@Subscribe
+	public void onWidgetLoaded(final WidgetLoaded loaded)
+	{
+		if (loaded.getGroupId() == InterfaceID.OMNISHOP_MAIN && isNearAgilityArenaEntrance())
+		{
+			shopOpen = true;
+		}
+	}
+
+
+	@Subscribe
+	public void onWidgetClosed(final WidgetClosed closed)
+	{
+		if (shopOpen && closed.getGroupId() == InterfaceID.OMNISHOP_MAIN)
+		{
+			shopOpen = false;
+		}
 	}
 
 	@Subscribe

@@ -24,7 +24,7 @@ public interface BrimhavenAgilityConfig extends Config
 
 	@ConfigItem(keyName = "showglovewarning",
 		name = "Show glove warning",
-		description = "Whether to show the warning when not wearing the Karamja medium+ diary gloves when near or in the arena",
+		description = "Whether to show the warning when not wearing the Karamja medium+ diary gloves when near or in the arena, or in the shop",
 		position = 1)
 	default boolean showGloveWarning()
 	{

@@ -36,6 +36,9 @@ whether the entry fee has been paid, and whether the user has a follower.
 A panel that appears when your account has completed at least all the tasks in the Karamja Easy &amp; Medium Diaries,
 but your character is not wearing the Karamja Gloves 2, 3, or 4. Only appears when near the entrance or in the arena.
 
+Additionally, in the Agility Arena Shop interface, the options to buy Agility XP get a warning if you are not wearing
+the diary gloves.
+
 When worn, the Karamja Gloves 2, 3, and 4 all grant 10% extra agility experience from obstacles and cashing in tickets.
 
 ![](images/gloves.png)
@@ -77,10 +80,11 @@ These are features that explicitly will not be added to this plugin.
 
 * distance in panel is coloured green when nearby
 * proper version tagging in the plugin properties
+* glove warning now shows on the shop over the options to purchase Agility XP
 
 ### [1.5.0](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.5.0)
 
-* New configurable feature - notification when the active ticket dispenser moves to within a configurable number of
+* new configurable feature - notification when the active ticket dispenser moves to within a configurable number of
   platforms from the player
 
 ### [1.4.1](https://github.com/kagof/rl-plugin-brimhaven-agility/releases/tag/v1.4.1)
