@@ -297,4 +297,14 @@ public interface BrimhavenAgilityConfig extends Config
 	{
 		return 1;
 	}
+
+	@ConfigItem(keyName = "notifywhenmovingintorange",
+		name = "Notify when you move into range",
+		description = "If the nearby dispenser notifier is enabled, also notify the first time you move to within the nearby dispenser distance of the current dispenser, rather than only when a new dispenser appears nearby",
+		section = notifications,
+		position = 2)
+	default boolean notifyWhenMovingIntoRange()
+	{
+		return false;
+	}
 }

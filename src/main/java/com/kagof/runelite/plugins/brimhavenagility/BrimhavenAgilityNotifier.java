@@ -13,6 +13,7 @@ public class BrimhavenAgilityNotifier
 
 	private final Notifier notifier;
 	private volatile BrimhavenAgilityArenaLocation lastDispenserLocation = null;
+	private volatile boolean notifiedForDispenser = false;
 
 	@Inject
 	public BrimhavenAgilityNotifier(final Notifier notifier)
@@ -32,15 +33,22 @@ public class BrimhavenAgilityNotifier
 		}
 		if (currentPath.end().equals(lastDispenserLocation))
 		{
-			return;
+			if (!config.notifyWhenMovingIntoRange() || notifiedForDispenser)
+			{
+				return;
+			}
 		}
-		// Update the last dispenser location regardless of whether we notified for it.
-		// This means that we won't notify when the player moves closer, only if the dispenser moves.
-		lastDispenserLocation = currentPath.end();
+		else
+		{
+			// Update the last dispenser location regardless of whether we notified for it.
+			lastDispenserLocation = currentPath.end();
+			notifiedForDispenser = false;
+		}
 		if (currentPath.distance() > config.nearbyDispenserDistance())
 		{
 			return;
 		}
+		notifiedForDispenser = true;
 		notify(config.nearbyDispenserNotification(), buildDispenserDistanceNotifyString(currentPath.distance()));
 
 	}
@@ -48,6 +56,7 @@ public class BrimhavenAgilityNotifier
 	public void clear()
 	{
 		lastDispenserLocation = null;
+		notifiedForDispenser = false;
 	}
 
 	private void notify(final Notification notification, final String message)
